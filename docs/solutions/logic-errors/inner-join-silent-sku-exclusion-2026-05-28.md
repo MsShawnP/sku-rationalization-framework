@@ -1,5 +1,5 @@
 ---
-title: "INNER JOINs silently excluded 40 of 90 SKUs from scoring pipeline"
+title: "INNER JOINs silently drop NULL-dimension SKUs from scoring pipeline"
 date: 2026-05-28
 category: logic-errors
 module: scoring-pipeline
@@ -7,7 +7,7 @@ problem_type: logic_error
 component: database
 severity: critical
 symptoms:
-  - "Output JSON contained 50 SKUs when portfolio had 90"
+  - "Output row count equalled product_master count but any SKU with NULL dimension data would be silently absent — no warning produced"
   - "No error raised — pipeline completed successfully with missing data"
   - "SKUs with NULL dimension values (velocity, margin, shelf cost, complexity) were dropped without warning"
   - "kill/fix/maintain/double-down quadrant assignments reflected incomplete portfolio"
@@ -26,19 +26,18 @@ tags:
   - python
 ---
 
-# INNER JOINs silently excluded 40 of 90 SKUs from scoring pipeline
+# INNER JOINs silently drop NULL-dimension SKUs from scoring pipeline
 
 ## Problem
 
-`run_scoring.py` used INNER JOINs against PostgreSQL intermediate views, silently dropping 40 of 90 SKUs that had NULL values in any scored dimension. The pipeline completed successfully with no error or warning — the output JSON showed 50 SKUs and the run appeared clean.
+`run_scoring.py` used INNER JOINs against PostgreSQL intermediate views. Any SKU with NULL values in one or more scored dimensions would be silently dropped — no error, no warning, just fewer rows in the output. In the Cinderhaven portfolio (50 SKUs, all with complete dimension data), the output count appeared correct, making the latent bug invisible without an explicit row-count comparison against `product_master`.
 
 ## Symptoms
 
-- Output JSON contained 50 rows; portfolio had 90 SKUs
-- No exception, no warning, no log message — query completed successfully
-- SKUs with NULL `loaded_margin_pct`, `annual_shelf_space_cost`, or `landed_cost_per_unit` were absent from results entirely
-- Missing SKUs were invisible unless the caller explicitly compared output count to `SELECT COUNT(*) FROM raw.product_master`
-- Quadrant distributions (kill / maintain / fix_or_kill / double_down) were computed over an incomplete portfolio
+- No exception, no warning, no log message — query completes successfully with fewer rows than `product_master`
+- SKUs with NULL `loaded_margin_pct`, `annual_shelf_space_cost`, or `landed_cost_per_unit` would be absent from results entirely
+- Missing SKUs are invisible unless the caller explicitly compares output count to `SELECT COUNT(*) FROM raw.product_master`
+- Quadrant distributions would be computed over an incomplete portfolio with no indication that rows were excluded
 
 ## What Didn't Work
 
