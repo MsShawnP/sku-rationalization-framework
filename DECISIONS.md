@@ -46,6 +46,17 @@ Each entry:
 
 ## Visualization
 
+### 2026-05-28 — Fix or Kill color: Singapore-55 (#ee8a2a)
+- **Why:** Dark teal (HK-15) was visually indistinguishable from the other teal quadrant colors and didn't signal caution. Singapore-55 is the Lailara design system's official warning color — used for warn status in conditional formatting and warning callout borders.
+- **Scope:** All Fix or Kill UI elements: quadrant card, badge, bucket filter button, bar chart color
+- **Do not:** Use any HK teal for Fix or Kill. Do not use an ad-hoc orange hex — always trace to Singapore family steps.
+
+### 2026-05-28 — Dimension view: 5 scrollable bar charts, not scatter
+- **Decision:** Show one horizontal bar chart per dimension, all SKUs ranked on that single dimension, stacked vertically and scrollable. No scatter or two-axis chart.
+- **Why:** Scatter plots require data literacy to interpret axes and quadrant positions. Five separate bar charts answer one question each — "how does this SKU rank on velocity?" — without requiring explanation. Built for non-data-scientist clients.
+- **Scope:** `app/index.html`, `app/js/app.js` dimension charts section
+- **Do not:** Revert to scatter or add a second axis to these charts. Each chart must answer exactly one dimension question.
+
 ### 2026-05-28 — Demo tool: static HTML + Plotly.js
 - **Decision:** Build the demo/visualization tool as a single static HTML file with Plotly.js. Deploy to GitHub Pages.
 - **Why:** Visual quality is the stated V1 priority. Static HTML gives full control over Lailara Design System tokens (Canvas background, Chicago/HK palette, Playfair Display + Source Sans 3 typography) without Streamlit's CSS override limitations. No runtime database dependency — the tool reads from the committed JSON snapshot. GitHub Pages hosting is free, instant to deploy, and produces a stable public URL. Streamlit would require Community Cloud and would cap visual customization.

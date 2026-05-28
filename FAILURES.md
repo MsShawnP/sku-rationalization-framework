@@ -26,6 +26,20 @@ produce a durable rule.
 
 ## Entries
 
+### 2026-05-28 — Plotly hovertemplate: HTML entities render as literal text
+
+**Attempted:** Used `&mdash;` in Plotly `hovertemplate` strings expecting it to render as an em dash.
+
+**Why it didn't work:** Plotly does not parse HTML entities in hovertemplate strings. `&mdash;` renders as the literal characters `&mdash;`.
+
+**What we tried instead:** Replaced `&mdash;` with the actual Unicode em dash character `—` directly in the string.
+
+**Status:** Resolved
+
+**Tags:** plotly, tooltip, html-entities, javascript
+
+---
+
 ### 2026-05-28 — GitHub Pages deploy blocked by auto mode classifier
 
 **Attempted:** `gh repo create sku-rationalization-framework --public --source=. --remote=origin --push` via Claude Code Bash tool.

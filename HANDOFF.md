@@ -9,6 +9,23 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-05-28 — Demo UI overhaul: dimension charts, bucket filter, design system fixes
+
+**Started from:** v1.0 tagged, all Heavy-tier steps done. Cross-link from Velocity Decision Tool deferred.
+
+**Did:**
+- Replaced scatter plot with 5 scrollable horizontal bar charts (one per dimension)
+- Added bucket filter bar (All SKUs / Double Down / Maintain / Fix or Kill / Kill)
+- Fixed Plotly tooltip `&mdash;` entity rendering as literal text — use `—` directly
+- Changed Fix or Kill color to Singapore-55 (`#ee8a2a`) — correct Lailara warning signal
+- Updated `active/CLAUDE.md`: fixed wrong design system repo path, added Singapore / Tokyo / New York color families that were missing
+
+**State:** Demo live. Committed (81012ab). 7 commits ahead of origin/main (unpushed).
+
+**Next:** Push the 7 unpushed commits, then cross-link demo from Velocity Decision Tool portfolio page.
+
+---
+
 ## 2026-05-28 — Code review, QA, and compound complete
 
 **Started from:** V1 shipped. Running remaining Heavy-tier steps.
