@@ -92,6 +92,14 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
 
 ## Arc history
 
+### 2026-05-28 — Heavy-tier workflow complete (pending v1.0 tag)
+- Outcome: /ce:review (18 findings, LEFT JOIN architecture, SQL threshold fix, font self-hosting), /qa (all interactions pass, zero errors), /ce:compound (logic-error solution doc written)
+- Next: git tag v1.0, cross-link from Velocity Decision Tool (deferred)
+
+### 2026-05-28 — V1 implementation
+- Outcome: U1–U7 complete — calibration, scoring engine, demo tool, SQL queries, methodology doc
+- Live: https://msshawnp.github.io/sku-rationalization-framework/app/
+
 ### 2026-05-28 — Foundation
 - Outcome: Repo scaffolded, state files created, GitHub remote created, /clarify + gates complete
 - Tag: v0.1-foundation

@@ -9,6 +9,24 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-05-28 — Code review, QA, and compound complete
+
+**Started from:** V1 shipped. Running remaining Heavy-tier steps.
+
+**Did:**
+- U8: `/ce:review` — 18 findings resolved across Python scoring stack and demo tool. Key changes: self-hosted fonts (CDN removed), LEFT JOIN architecture for all 90 SKUs (was silently dropping 40), SQL Q3 threshold bug fixed (P10→P25 boundary), `calibrate.py` now syncs SQL thresholds, scatter chart re-renders on filter/weight changes, all-zeros slider snap-back, scoreColor split into two functions. 74 tests passing.
+- `/qa` — All interactions verified in browser: quadrant filter toggle, combined filters, detail card open/close, weight slider normalization, all-zeros snap-back, reset button, scatter re-render on filter, bar re-rank on weight change. Zero console errors.
+- U9: `/ce:compound` — Full-mode compound with session history. Solution doc created at `docs/solutions/logic-errors/inner-join-silent-sku-exclusion-2026-05-28.md`. Documents the INNER JOIN silent-exclusion bug, Python None-handling architecture, prevention checklist. Reviewed by Kieran Python + code simplicity agents — P0/P1 accuracy fixes applied. `CLAUDE.md` updated to surface `docs/solutions/` to future agents.
+
+**State:** All Heavy-tier steps complete except final tag + cross-link.
+
+**Next:**
+- Tag v1.0 — `git tag v1.0 -m "SKU Rationalization Framework V1 — scoring engine, demo tool, SQL queries, methodology doc"`
+- Cross-link from Velocity Decision Tool portfolio page (deferred per prior decision)
+- Consider regenerating `data/cinderhaven_scored.json` from live DB to include all 90 SKUs (requires `flyctl proxy 5432:5432 -a cinderhaven-db`)
+
+---
+
 ## 2026-05-28 — V1 complete and live
 
 **Started from:** Foundation commit. All gates passed (/clarify, /office-hours, /plan-ceo-review, /plan-eng-review, /ce:brainstorm, /ce:plan). /ce:work executed all 7 implementation units in this session.
