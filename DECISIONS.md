@@ -74,6 +74,16 @@ Each entry:
 
 ---
 
+## Consulting & Positioning
+
+### 2026-05-28 — Do not disclose pricing in public-facing README or demo
+- **Decision:** Remove the $15K–$25K price point from README.md and any GitHub Pages–hosted content.
+- **Why:** The repo is public. Publishing pricing on GitHub invites price anchoring, competitor visibility, and awkward client conversations before discovery.
+- **Scope:** README.md, app/index.html footer, any future case study pages
+- **Do not:** Add pricing back to any file that ships to GitHub Pages. Pricing belongs in proposals and private collateral only.
+
+---
+
 ## Reversed / Superseded
 
 [Nothing yet]
