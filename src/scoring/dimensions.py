@@ -13,12 +13,9 @@ No database access, no side effects. Tests live in tests/test_scoring/.
 from __future__ import annotations
 
 from src.scoring.constants import (
-    CANNIBAL_P10,
-    CANNIBAL_P25,
     CANNIBAL_P50,
     CANNIBAL_P75,
     CANNIBAL_P90,
-    COMPLEX_P10,
     COMPLEX_P25,
     COMPLEX_P50,
     COMPLEX_P75,
@@ -27,8 +24,6 @@ from src.scoring.constants import (
     MARGIN_P25,
     MARGIN_P50,
     MARGIN_P75,
-    MARGIN_P90,
-    SHELF_P10,
     SHELF_P25,
     SHELF_P50,
     SHELF_P75,
@@ -37,12 +32,13 @@ from src.scoring.constants import (
     VELOCITY_P25,
     VELOCITY_P50,
     VELOCITY_P75,
-    VELOCITY_P90,
 )
 
 
-def score_velocity(uspw: float) -> int:
+def score_velocity(uspw: float | None) -> int | None:
     """Score velocity (units/store/week). Higher is better."""
+    if uspw is None:
+        return None
     if uspw >= VELOCITY_P75:
         return 5
     if uspw >= VELOCITY_P50:
@@ -54,12 +50,14 @@ def score_velocity(uspw: float) -> int:
     return 1
 
 
-def score_contribution_margin(loaded_margin_pct: float) -> int:
+def score_contribution_margin(loaded_margin_pct: float | None) -> int | None:
     """Score loaded contribution margin rate. Higher (less negative) is better.
 
     All Cinderhaven SKUs have negative loaded margins after full cost loading;
     scoring is portfolio-relative — score 5 = least negative in the portfolio.
     """
+    if loaded_margin_pct is None:
+        return None
     if loaded_margin_pct >= MARGIN_P75:
         return 5
     if loaded_margin_pct >= MARGIN_P50:
@@ -71,8 +69,10 @@ def score_contribution_margin(loaded_margin_pct: float) -> int:
     return 1
 
 
-def score_shelf_space_cost(annual_cost: float) -> int:
+def score_shelf_space_cost(annual_cost: float | None) -> int | None:
     """Score annual shelf-space cost. Lower is better (inverted scoring)."""
+    if annual_cost is None:
+        return None
     if annual_cost <= SHELF_P25:
         return 5
     if annual_cost <= SHELF_P50:
@@ -84,12 +84,14 @@ def score_shelf_space_cost(annual_cost: float) -> int:
     return 1
 
 
-def score_production_complexity(complexity_ratio: float) -> int:
+def score_production_complexity(complexity_ratio: float | None) -> int | None:
     """Score production complexity (landed_cost/msrp proxy). Lower ratio is better.
 
     A lower landed_cost/msrp ratio means the product is simpler to produce
     relative to its price, indicating lower ingredient and manufacturing complexity.
     """
+    if complexity_ratio is None:
+        return None
     if complexity_ratio <= COMPLEX_P25:
         return 5
     if complexity_ratio <= COMPLEX_P50:
@@ -108,6 +110,9 @@ def score_cannibalization_risk(cannibalization_risk: float) -> int:
       max(0, -(shared_uspw - solo_uspw) / solo_uspw)
     A value of 0 means no measurable cannibalization signal.
     A positive value means velocity drops when sibling SKUs are present.
+
+    Caller passes 0.0 when the raw value is None (< 3 solo stores);
+    absence of signal is treated as no penalty, not missing data.
     """
     if cannibalization_risk == 0.0:
         return 5

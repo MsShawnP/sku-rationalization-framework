@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from src.scoring.dimensions import (
     score_cannibalization_risk,
     score_contribution_margin,
@@ -15,17 +17,21 @@ from src.scoring.quadrants import assign_quadrant, compute_weighted_score, DEFAU
 def score_sku(
     sku: str,
     product_line: str,
-    uspw: float,
-    loaded_margin_pct: float,
-    annual_shelf_space_cost: float,
-    complexity_ratio: float,
-    cannibalization_risk: float,
+    uspw: float | None,
+    loaded_margin_pct: float | None,
+    annual_shelf_space_cost: float | None,
+    complexity_ratio: float | None,
+    cannibalization_risk: float | None,
     weights: dict[str, float] | None = None,
-) -> dict:
+) -> dict[str, Any]:
     """Return a fully scored SKU record.
 
-    cannibalization_risk of None (SKU had fewer than 3 solo stores) is
-    treated as 0.0 — no measurable signal, so no penalty.
+    Any dimension except cannibalization_risk may be None when the underlying
+    table has no row for this SKU — those SKUs are classified as
+    "insufficient_data" rather than scored normally.
+
+    cannibalization_risk of None (fewer than 3 solo stores) is treated as 0.0:
+    absence of a cannibalization signal is not the same as missing data.
     """
     safe_cannibal = cannibalization_risk if cannibalization_risk is not None else 0.0
 
@@ -41,14 +47,14 @@ def score_sku(
         "sku": sku,
         "product_line": product_line,
         "raw": {
-            "uspw": round(uspw, 4),
-            "loaded_margin_pct": round(loaded_margin_pct, 4),
-            "annual_shelf_space_cost": round(annual_shelf_space_cost, 2),
-            "complexity_ratio": round(complexity_ratio, 4),
+            "uspw": round(uspw, 4) if uspw is not None else None,
+            "loaded_margin_pct": round(loaded_margin_pct, 4) if loaded_margin_pct is not None else None,
+            "annual_shelf_space_cost": round(annual_shelf_space_cost, 2) if annual_shelf_space_cost is not None else None,
+            "complexity_ratio": round(complexity_ratio, 4) if complexity_ratio is not None else None,
             "cannibalization_risk": round(safe_cannibal, 4),
         },
         "scores": scores,
         "weighted_score": compute_weighted_score(scores, weights),
         "quadrant": assign_quadrant(scores),
-        "weights_used": weights if weights is not None else DEFAULT_WEIGHTS,
+        "weights_used": (weights if weights is not None else DEFAULT_WEIGHTS).copy(),
     }

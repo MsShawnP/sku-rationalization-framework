@@ -14,6 +14,7 @@ Usage:
 from __future__ import annotations
 
 import os
+import re
 import sys
 import textwrap
 from pathlib import Path
@@ -22,7 +23,8 @@ import psycopg2
 import psycopg2.extras
 
 
-PLATFORM_ENV = Path(__file__).parent.parent.parent.parent / "active datasources" / "cinderhaven-data-platform" / ".env"
+_DEFAULT_ENV = Path(__file__).parent.parent.parent.parent / "active datasources" / "cinderhaven-data-platform" / ".env"
+PLATFORM_ENV = Path(os.environ["CINDERHAVEN_ENV"]) if "CINDERHAVEN_ENV" in os.environ else _DEFAULT_ENV
 
 def load_env(path: Path) -> None:
     if not path.exists():
@@ -134,6 +136,94 @@ def fetch_percentiles(conn: psycopg2.extensions.connection) -> dict:
     return result
 
 
+def validate_percentiles(p: dict) -> None:
+    """Raise ValueError if any percentile value is None (NULL from DB).
+
+    A NULL means the query returned no rows for that distribution — most
+    likely an empty table or a filter that excluded all rows. Fail before
+    any file write rather than generating a broken constants.py.
+    """
+    nulls = [key for key, val in p.items() if val is None]
+    if nulls:
+        raise ValueError(
+            f"Percentile query returned NULL for: {', '.join(nulls)}. "
+            "Check that the source tables are populated and the WHERE clauses "
+            "are not excluding all rows."
+        )
+
+
+def sync_sql_thresholds(p: dict, sql_path: Path) -> None:
+    """Update hardcoded scoring thresholds in diagnostic_queries.sql.
+
+    Rewrites threshold values in:
+      - Query 2: CASE WHEN ... THEN 1-5 scored blocks
+      - Query 3: inline CASE WHEN ... THEN 0/1 red-flag blocks
+
+    Uses targeted regex so surrounding SQL formatting is preserved.
+    Called after validate_percentiles() so no None values reach formatting.
+    """
+    sql = sql_path.read_text(encoding="utf-8")
+
+    def sub(pattern: str, repl: str) -> None:
+        nonlocal sql
+        sql = re.sub(pattern, repl, sql)
+
+    # Q2: velocity thresholds — THEN [5/4/3/2] discriminates each tier
+    sub(r'(WHEN v\.uspw >= )([\d.]+)( THEN 5)', fr'\g<1>{p["vel_p75"]:.4f}\g<3>')
+    sub(r'(WHEN v\.uspw >= )([\d.]+)( THEN 4)', fr'\g<1>{p["vel_p50"]:.4f}\g<3>')
+    sub(r'(WHEN v\.uspw >= )([\d.]+)( THEN 3)', fr'\g<1>{p["vel_p25"]:.4f}\g<3>')
+    sub(r'(WHEN v\.uspw >= )([\d.]+)( THEN 2)', fr'\g<1>{p["vel_p10"]:.4f}\g<3>')
+
+    # Q2: margin thresholds — handle negative values with -? prefix
+    sub(r'(WHEN m\.loaded_margin_pct >= )(-?[\d.]+)( THEN 5)', fr'\g<1>{p["margin_p75"]:.4f}\g<3>')
+    sub(r'(WHEN m\.loaded_margin_pct >= )(-?[\d.]+)( THEN 4)', fr'\g<1>{p["margin_p50"]:.4f}\g<3>')
+    sub(r'(WHEN m\.loaded_margin_pct >= )(-?[\d.]+)( THEN 3)', fr'\g<1>{p["margin_p25"]:.4f}\g<3>')
+    sub(r'(WHEN m\.loaded_margin_pct >= )(-?[\d.]+)( THEN 2)', fr'\g<1>{p["margin_p10"]:.4f}\g<3>')
+
+    # Q2: shelf-cost thresholds
+    sub(r'(WHEN s\.annual_shelf_space_cost <= )([\d.]+)( THEN 5)', fr'\g<1>{p["shelf_p25"]:.2f}\g<3>')
+    sub(r'(WHEN s\.annual_shelf_space_cost <= )([\d.]+)( THEN 4)', fr'\g<1>{p["shelf_p50"]:.2f}\g<3>')
+    sub(r'(WHEN s\.annual_shelf_space_cost <= )([\d.]+)( THEN 3)', fr'\g<1>{p["shelf_p75"]:.2f}\g<3>')
+    sub(r'(WHEN s\.annual_shelf_space_cost <= )([\d.]+)( THEN 2)', fr'\g<1>{p["shelf_p90"]:.2f}\g<3>')
+
+    # Q2: complexity thresholds — anchor on the NULLIF(pm.msrp,...)) <= X sequence
+    sub(r'(NULLIF\(pm\.msrp,\s*0\)\)\s*<=\s*)([\d.]+)(\s+THEN 5)', fr'\g<1>{p["complex_p25"]:.4f}\g<3>')
+    sub(r'(NULLIF\(pm\.msrp,\s*0\)\)\s*<=\s*)([\d.]+)(\s+THEN 4)', fr'\g<1>{p["complex_p50"]:.4f}\g<3>')
+    sub(r'(NULLIF\(pm\.msrp,\s*0\)\)\s*<=\s*)([\d.]+)(\s+THEN 3)', fr'\g<1>{p["complex_p75"]:.4f}\g<3>')
+    sub(r'(NULLIF\(pm\.msrp,\s*0\)\)\s*<=\s*)([\d.]+)(\s+THEN 2)', fr'\g<1>{p["complex_p90"]:.4f}\g<3>')
+
+    # Q2: cannibalization thresholds — the 0.0 check line stays as-is (no threshold)
+    sub(r'(GREATEST\(0,\s*-cp\.velocity_delta_pct\)\s*<=\s*)([\d.]+)(\s+THEN 4)', fr'\g<1>{p["cannibal_p50"]:.4f}\g<3>')
+    sub(r'(GREATEST\(0,\s*-cp\.velocity_delta_pct\)\s*<=\s*)([\d.]+)(\s+THEN 3)', fr'\g<1>{p["cannibal_p75"]:.4f}\g<3>')
+    sub(r'(GREATEST\(0,\s*-cp\.velocity_delta_pct\)\s*<=\s*)([\d.]+)(\s+THEN 2)', fr'\g<1>{p["cannibal_p90"]:.4f}\g<3>')
+
+    # Q3: simplified binary CASE blocks — score >= 3 boundary (not a red flag)
+    # velocity/margin use P25; shelf/complexity/cannibalization use P75.
+    sub(
+        r'CASE WHEN v\.uspw >= [\d.]+ THEN 0 ELSE 1 END',
+        f"CASE WHEN v.uspw >= {p['vel_p25']:.4f} THEN 0 ELSE 1 END",
+    )
+    sub(
+        r'CASE WHEN m\.loaded_margin_pct >= -?[\d.]+ THEN 0 ELSE 1 END',
+        f"CASE WHEN m.loaded_margin_pct >= {p['margin_p25']:.4f} THEN 0 ELSE 1 END",
+    )
+    sub(
+        r'CASE WHEN s\.annual_shelf_space_cost <= [\d.]+ THEN 0 ELSE 1 END',
+        f"CASE WHEN s.annual_shelf_space_cost <= {p['shelf_p75']:.2f} THEN 0 ELSE 1 END",
+    )
+    sub(
+        r'CASE WHEN \(sc\.landed_cost_per_unit/NULLIF\(pm\.msrp,0\)\) <= [\d.]+ THEN 0 ELSE 1 END',
+        f"CASE WHEN (sc.landed_cost_per_unit/NULLIF(pm.msrp,0)) <= {p['complex_p75']:.4f} THEN 0 ELSE 1 END",
+    )
+    sub(
+        r'CASE WHEN COALESCE\(GREATEST\(0,-cp\.velocity_delta_pct\),0\) <= [\d.]+ THEN 0 ELSE 1 END',
+        f"CASE WHEN COALESCE(GREATEST(0,-cp.velocity_delta_pct),0) <= {p['cannibal_p75']:.4f} THEN 0 ELSE 1 END",
+    )
+
+    sql_path.write_text(sql, encoding="utf-8")
+    print(f"  SQL thresholds synced in {sql_path.name}")
+
+
 def render_constants(p: dict) -> str:
     return textwrap.dedent(f"""\
         # Auto-generated by scripts/calibrate.py — do not edit by hand.
@@ -203,9 +293,15 @@ def main() -> None:
     for key, val in p.items():
         print(f"  {key}: {val:.4f}" if val is not None else f"  {key}: None")
 
+    validate_percentiles(p)
+
     out_path = Path(__file__).parent.parent / "src" / "scoring" / "constants.py"
     out_path.write_text(render_constants(p), encoding="utf-8")
     print(f"\nThresholds written to {out_path}")
+
+    sql_path = Path(__file__).parent.parent / "sql" / "diagnostic_queries.sql"
+    sync_sql_thresholds(p, sql_path)
+    print("Calibration complete.")
 
 
 if __name__ == "__main__":

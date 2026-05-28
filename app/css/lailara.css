@@ -1,5 +1,56 @@
 /* Lailara Design System v2 — SKU Rationalization Demo */
 
+/* ─── Self-hosted fonts ───────────────────────────────── */
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/playfair-display-v40-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../fonts/playfair-display-v40-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/playfair-display-v40-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/source-sans-3-v19-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('../fonts/source-sans-3-v19-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../fonts/source-sans-3-v19-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ─── Tokens ─────────────────────────────────────────── */
 :root {
   --canvas:        #f5f3ee;
@@ -18,8 +69,8 @@
   --teal-55:       #35b595;
   --teal-70:       #6dcdb5;
   --teal-85:       #b5e4d8;
-  --amber:         #c87e0d;
-  --amber-light:   #f5e6c8;
+  --hk-dark:       #0a5c4b;
+  --hk-dark-light: #e4f5f0;
   --card-bg:       #1a1a1a;
   --card-text:     #ffffff;
   --card-subtitle: #d8d8d8;
@@ -28,10 +79,10 @@
   --card-item:     #ededed;
   --q-double-down: #158f75;
   --q-maintain:    #1f2e7a;
-  --q-fix-or-kill: #c87e0d;
+  --q-fix-or-kill: #0a5c4b;
   --q-kill:        #cc100a;
   --radius:        2px;
-  --content-max:   960px;
+  --content-max:   900px;
   --font-serif:    'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-sans:     'Source Sans 3', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
@@ -375,7 +426,7 @@ body {
 }
 .badge--double-down { background: #e0f4ee; color: var(--q-double-down); }
 .badge--maintain    { background: #e5e8f5; color: var(--q-maintain); }
-.badge--fix-or-kill { background: #faebd0; color: var(--amber); }
+.badge--fix-or-kill { background: var(--hk-dark-light); color: var(--hk-dark); }
 .badge--kill        { background: #fde8e7; color: var(--q-kill); }
 
 /* ─── Detail card ────────────────────────────────────── */
@@ -386,7 +437,7 @@ body {
   width: 300px;
   background: var(--card-bg);
   color: var(--card-text);
-  border-radius: 4px;
+  border-radius: 2px;
   padding: 20px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.32);
   z-index: 100;
@@ -475,7 +526,7 @@ body {
   transition: width 200ms ease;
 }
 .dim-row__bar-fill--low { background: var(--q-kill); }
-.dim-row__bar-fill--mid { background: var(--amber); }
+.dim-row__bar-fill--mid { background: var(--hk-dark); }
 .dim-row__bar-fill--high { background: var(--teal-35); }
 .dim-row__score {
   font-size: 12px;

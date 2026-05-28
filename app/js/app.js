@@ -33,7 +33,7 @@ const DIM_RAW_KEYS = {
 const Q_COLORS = {
   double_down: '#158f75',
   maintain:    '#1f2e7a',
-  fix_or_kill: '#c87e0d',
+  fix_or_kill: '#0a5c4b',
   kill:        '#cc100a',
 };
 const Q_LABELS = {
@@ -138,6 +138,7 @@ function wireEvents() {
 
 function onFiltersChange() {
   renderBarChart();
+  renderScatterChart();
   renderTable();
   updateQuadrantCardHighlights();
 }
@@ -164,7 +165,12 @@ function onSliderChange(changedDim) {
   // Read raw values from all sliders, then normalize to sum = 1
   const raw = Object.fromEntries(DIMS.map(d => [d, parseInt(document.getElementById(`sl-${d}`).value) || 0]));
   const total = DIMS.reduce((s, d) => s + raw[d], 0);
-  DIMS.forEach(d => { weights[d] = total > 0 ? raw[d] / total : 0.2; });
+  // All-zero is undefined — snap back to equal so display always matches stored weights
+  if (total === 0) {
+    DIMS.forEach(d => { weights[d] = 0.2; });
+  } else {
+    DIMS.forEach(d => { weights[d] = raw[d] / total; });
+  }
 
   // Update display values to show the normalized percentage
   DIMS.forEach(d => {
@@ -173,6 +179,7 @@ function onSliderChange(changedDim) {
   });
 
   renderBarChart();
+  renderScatterChart();
   renderTable();
   if (pinnedSku) refreshDetailScore(pinnedSku);
 }
@@ -185,6 +192,7 @@ function resetWeights() {
     document.getElementById(`sv-${d}`).textContent = '20%';
   });
   renderBarChart();
+  renderScatterChart();
   renderTable();
   if (pinnedSku) refreshDetailScore(pinnedSku);
 }
@@ -280,7 +288,7 @@ function renderBarChart() {
       type: 'line',
       x0: 3, x1: 3,
       y0: -0.5, y1: sorted.length - 0.5,
-      line: { color: '#888888', width: 1, dash: 'dot' },
+      line: { color: '#666666', width: 1, dash: 'dot' },
     }],
     bargap: 0.28,
   };
@@ -300,8 +308,9 @@ function renderBarChart() {
 // ─── Scatter chart ────────────────────────────────────────────────────────────
 
 function renderScatterChart() {
+  const visible = getFilteredSkus();
   const traces = Q_ORDER.map(q => {
-    const skus = allSkus.filter(s => s.quadrant === q);
+    const skus = visible.filter(s => s.quadrant === q);
     return {
       type: 'scatter',
       mode: 'markers',
@@ -350,8 +359,8 @@ function renderScatterChart() {
     },
     // Reference lines at score=3
     shapes: [
-      { type: 'line', x0: 3, x1: 3, y0: 0.5, y1: 5.5, line: { color: '#888888', width: 1, dash: 'dot' } },
-      { type: 'line', x0: 0.5, x1: 5.5, y0: 3, y1: 3, line: { color: '#888888', width: 1, dash: 'dot' } },
+      { type: 'line', x0: 3, x1: 3, y0: 0.5, y1: 5.5, line: { color: '#666666', width: 1, dash: 'dot' } },
+      { type: 'line', x0: 0.5, x1: 5.5, y0: 3, y1: 3, line: { color: '#666666', width: 1, dash: 'dot' } },
     ],
   };
 
@@ -359,6 +368,7 @@ function renderScatterChart() {
   Plotly.newPlot('chart-scatter', traces, layout, config);
 
   const scatterDiv = document.getElementById('chart-scatter');
+  scatterDiv.removeAllListeners && scatterDiv.removeAllListeners('plotly_click');
   scatterDiv.on('plotly_click', evt => {
     const pt = evt.points[0];
     if (pt && pt.customdata) showDetailCard(pt.customdata);
@@ -383,7 +393,7 @@ function renderTable() {
 
     const dimCells = DIMS.map(d => {
       const s = sku.scores[d];
-      return `<td class="dim-col" style="color:${scoreColor(s)};font-weight:600;">${s}</td>`;
+      return `<td class="dim-col" style="color:${dimScoreColor(s)};font-weight:600;">${s}</td>`;
     }).join('');
 
     const score = computeScore(sku).toFixed(2);
@@ -393,7 +403,7 @@ function renderTable() {
       <td class="sku-code">${sku.sku}</td>
       <td class="product-line">${sku.product_line}</td>
       ${dimCells}
-      <td class="score-cell" style="color:${scoreColor(parseFloat(score), true)}">${score}</td>
+      <td class="score-cell" style="color:${compositeScoreColor(parseFloat(score))}">${score}</td>
       <td><span class="badge badge--${qClass}">${Q_LABELS[sku.quadrant]}</span></td>
     `;
     tr.addEventListener('click', () => showDetailCard(sku.sku));
@@ -401,16 +411,17 @@ function renderTable() {
   });
 }
 
-function scoreColor(score, isComposite = false) {
-  if (isComposite) {
-    if (score >= 4) return '#158f75';
-    if (score >= 3) return '#333333';
-    if (score >= 2) return '#c87e0d';
-    return '#cc100a';
-  }
+function dimScoreColor(score) {
   if (score >= 4) return '#158f75';
   if (score === 3) return '#595959';
-  if (score === 2) return '#c87e0d';
+  if (score === 2) return '#0a5c4b';
+  return '#cc100a';
+}
+
+function compositeScoreColor(score) {
+  if (score >= 4) return '#158f75';
+  if (score >= 3) return '#333333';
+  if (score >= 2) return '#0a5c4b';
   return '#cc100a';
 }
 
@@ -463,7 +474,7 @@ function refreshDetailScore(skuCode) {
   if (!sku) return;
   const score = computeScore(sku).toFixed(2);
   document.getElementById('dc-score').textContent = score;
-  document.getElementById('dc-score').style.color = scoreColor(parseFloat(score), true);
+  document.getElementById('dc-score').style.color = compositeScoreColor(parseFloat(score));
 }
 
 function hideDetailCard() {
