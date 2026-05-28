@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cinderhaven SKU Portfolio Audit — Lailara LLC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/lailara.css">
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+</head>
+<body>
+
+  <!-- Pinned SKU detail card -->
+  <aside id="detail-card" class="detail-card" hidden aria-live="polite">
+    <div class="detail-card__header">
+      <span class="detail-card__sku" id="dc-sku">—</span>
+      <button class="detail-card__close" id="dc-close" aria-label="Close">&#x2715;</button>
+    </div>
+    <div class="detail-card__product-line" id="dc-line">—</div>
+    <div id="dc-badge-wrap" style="margin-bottom:12px;"></div>
+    <div class="detail-card__composite">
+      <span class="detail-card__composite-label">Weighted Score</span>
+      <span class="detail-card__composite-value" id="dc-score">—</span>
+    </div>
+    <div class="detail-card__dims" id="dc-dims"></div>
+    <p class="detail-card__note">
+      Scores 1–5, portfolio-relative. Cannibalization via proxy (cross-sectional).
+      All margins negative after full cost loading.
+    </p>
+  </aside>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-header__brand">
+        <span class="site-header__brand-name">Lailara LLC</span>
+        <span class="site-header__brand-sub">SKU Rationalization Framework</span>
+      </div>
+      <div class="site-header__divider"></div>
+      <div>
+        <h1 class="site-header__title">Cinderhaven SKU Portfolio Audit</h1>
+        <p class="site-header__meta">50 SKUs &middot; 5 Product Lines &middot; 6 Retailers &middot; 2024&ndash;2027 &middot; Loaded contribution margins</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div id="load-error" class="load-error" hidden></div>
+
+    <!-- Quadrant summary -->
+    <section class="quadrant-summary" aria-label="Action bucket summary">
+      <div class="quadrant-card quadrant-card--double-down" data-q="double_down" role="button" tabindex="0" aria-pressed="false">
+        <div class="quadrant-card__count" id="count-double_down">—</div>
+        <div class="quadrant-card__label">Double Down</div>
+        <div class="quadrant-card__desc">Strong across dimensions — invest and protect</div>
+      </div>
+      <div class="quadrant-card quadrant-card--maintain" data-q="maintain" role="button" tabindex="0" aria-pressed="false">
+        <div class="quadrant-card__count" id="count-maintain">—</div>
+        <div class="quadrant-card__label">Maintain</div>
+        <div class="quadrant-card__desc">No critical weaknesses — hold and optimize</div>
+      </div>
+      <div class="quadrant-card quadrant-card--fix-or-kill" data-q="fix_or_kill" role="button" tabindex="0" aria-pressed="false">
+        <div class="quadrant-card__count" id="count-fix_or_kill">—</div>
+        <div class="quadrant-card__label">Fix or Kill</div>
+        <div class="quadrant-card__desc">One critical weakness — address it or cut</div>
+      </div>
+      <div class="quadrant-card quadrant-card--kill" data-q="kill" role="button" tabindex="0" aria-pressed="false">
+        <div class="quadrant-card__count" id="count-kill">—</div>
+        <div class="quadrant-card__label">Kill</div>
+        <div class="quadrant-card__desc">Two or more failures — discontinuation candidate</div>
+      </div>
+    </section>
+
+    <!-- Weight controls -->
+    <section class="weight-controls">
+      <h2 class="section-title">Dimension Weights</h2>
+      <p class="section-desc">
+        Adjust to reflect your client&rsquo;s priorities. Action buckets are fixed by red-flag counts;
+        weights re-rank the composite score and re-sort the bar chart.
+      </p>
+      <div class="sliders" id="sliders"></div>
+      <div class="weight-actions">
+        <button class="btn btn--secondary" id="reset-weights">Reset to Equal</button>
+      </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts-grid">
+      <div class="chart-panel">
+        <h2 class="chart-title">Portfolio Ranking by Weighted Score</h2>
+        <p class="chart-subtitle">Sorted by composite score. Color = action bucket. Click any bar for detail. Dashed line = score of 3.</p>
+        <div id="chart-bar" class="chart-container"></div>
+      </div>
+      <div class="chart-panel">
+        <h2 class="chart-title">Velocity vs. Contribution Margin</h2>
+        <p class="chart-subtitle">Dimension scores 1&ndash;5. Reference lines at 3. Click any point for detail.</p>
+        <div id="chart-scatter" class="chart-container"></div>
+      </div>
+    </section>
+
+    <!-- SKU table -->
+    <section class="sku-table-section">
+      <h2 class="section-title">Full Portfolio Data</h2>
+      <div class="table-toolbar">
+        <select class="table-filter" id="line-filter" aria-label="Filter by product line">
+          <option value="">All Product Lines</option>
+        </select>
+        <select class="table-filter" id="q-filter" aria-label="Filter by action bucket">
+          <option value="">All Buckets</option>
+          <option value="double_down">Double Down</option>
+          <option value="maintain">Maintain</option>
+          <option value="fix_or_kill">Fix or Kill</option>
+          <option value="kill">Kill</option>
+        </select>
+        <span class="table-count" id="table-count"></span>
+      </div>
+      <div class="table-wrapper">
+        <table class="sku-table">
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product Line</th>
+              <th class="dim-col" title="Velocity score (units/store/week)">Vel</th>
+              <th class="dim-col" title="Contribution margin score (loaded %)">Margin</th>
+              <th class="dim-col" title="Shelf space cost score (annual USD)">Shelf</th>
+              <th class="dim-col" title="Production complexity score (landed/MSRP)">Complexity</th>
+              <th class="dim-col" title="Cannibalization risk score (velocity delta)">Cannibal</th>
+              <th>Score</th>
+              <th>Bucket</th>
+            </tr>
+          </thead>
+          <tbody id="sku-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <span class="site-footer__source">
+        Source: Cinderhaven Postgres, 2024&ndash;2027 window &middot;
+        Cannibalization via proxy (cross-sectional velocity comparison) &middot;
+        All margins portfolio-relative (fully loaded, all negative)
+      </span>
+      <span class="site-footer__branding">Lailara LLC &mdash; SKU Rationalization Framework v1</span>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
