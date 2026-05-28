@@ -84,7 +84,8 @@
   --sg-95:         #fdeee0;
   --sg-20:         #7a3d10;
   --q-kill:        #cc100a;
-  --canvas-hover:  #faf9f6; /* London-100 neutral — table row hover, subtle surface lift */
+  --chicago-95:    #e8eaf4; /* Chicago-95 — table row hover, info surface, selected state */
+  --red-95:        #fce8e7; /* Red-95 — error/kill badge surface, alert banner background */
   --radius:        2px;
   --content-max:   900px;
   --font-serif:    'Playfair Display', Georgia, 'Times New Roman', serif;
@@ -435,7 +436,7 @@ body {
   cursor: pointer;
 }
 .sku-table tbody tr:last-child { border-bottom: none; }
-.sku-table tbody tr:hover { background: var(--canvas-hover); }
+.sku-table tbody tr:hover { background: var(--chicago-95); }
 .sku-table td { padding: 9px 12px; }
 .sku-table td.sku-code {
   font-family: monospace;
@@ -465,9 +466,9 @@ body {
   white-space: nowrap;
 }
 .badge--double-down { background: var(--hk-dark-light); color: var(--q-double-down); }
-.badge--maintain    { background: #e5e8f5; color: var(--q-maintain); }
+.badge--maintain    { background: var(--chicago-95); color: var(--q-maintain); }
 .badge--fix-or-kill { background: var(--sg-95); color: var(--sg-20); }
-.badge--kill        { background: #fde8e7; color: var(--q-kill); }
+.badge--kill        { background: var(--red-95); color: var(--q-kill); }
 
 /* ─── Detail card ────────────────────────────────────── */
 .detail-card {
@@ -555,7 +556,7 @@ body {
 .dim-row__bar-track {
   width: 60px;
   height: 4px;
-  background: rgba(255,255,255,0.12);
+  background: var(--card-border);
   border-radius: 2px;
   overflow: hidden;
 }
@@ -587,7 +588,7 @@ body {
 
 /* ─── Error state ────────────────────────────────────── */
 .load-error {
-  background: #fde8e7;
+  background: var(--red-95);
   color: var(--q-kill);
   border: 1px solid var(--q-kill);
   border-radius: var(--radius);
@@ -640,7 +641,7 @@ body {
 /* ─── Print ──────────────────────────────────────────── */
 @media print {
   .detail-card, .weight-controls, .btn { display: none; }
-  .site-header { border-bottom: 1px solid #333; }
+  .site-header { border-bottom: 1px solid var(--text-primary); }
   body { background: white; }
   @page { size: letter; margin: 0.6in; }
 }
