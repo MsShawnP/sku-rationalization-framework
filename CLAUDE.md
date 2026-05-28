@@ -6,8 +6,9 @@ A multi-dimensional SKU rationalization framework for specialty food brands at
 $10M–$30M revenue. Scores every SKU across five dimensions — velocity,
 contribution margin, shelf-space cost, production complexity, and cannibalization
 risk — to produce a four-quadrant classification: double down, maintain,
-fix or kill, or kill. Deliverables include an interactive tool, an Excel
-financial model, a Cinderhaven 90-SKU case study, and SQL diagnostic queries.
+fix or kill, or kill. V1 deliverables: polished demo/visualization tool
+(Cinderhaven 90-SKU data), SQL diagnostic queries, and scoring methodology doc.
+Excel financial model and case study HTML+PDF are deferred.
 
 **Business question this project answers:** Which SKUs should this brand kill,
 fix, maintain, or double down on — and what does each decision cost or save
