@@ -49,6 +49,7 @@ const Q_ORDER = ['kill', 'fix_or_kill', 'maintain', 'double_down'];
 let allSkus = [];
 let weights = Object.fromEntries(DIMS.map(d => [d, 0.2]));
 let pinnedSku = null;
+let sliderDebounceTimer = null;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -85,6 +86,7 @@ async function init() {
     renderDimensionCharts();
     renderTable();
     wireEvents();
+    syncBucketButtons('');
 
   } catch (e) {
     const el = document.getElementById('load-error');
@@ -137,7 +139,8 @@ function wireEvents() {
     if (!card.hidden && !card.contains(e.target)) {
       // only dismiss if click wasn't on a chart (Plotly owns those clicks)
       if (!e.target.closest('#chart-bar') && !e.target.closest('.dim-charts-stack') &&
-          !e.target.closest('.sku-table')) {
+          !e.target.closest('.sku-table') && !e.target.closest('.bucket-filter') &&
+          !e.target.closest('.weight-controls') && !e.target.closest('.quadrant-summary')) {
         hideDetailCard();
       }
     }
@@ -155,7 +158,9 @@ function onFiltersChange() {
 
 function syncBucketButtons(activeQ) {
   document.querySelectorAll('.bucket-btn[data-q]').forEach(btn => {
-    btn.classList.toggle('is-active', btn.dataset.q === activeQ);
+    const isActive = btn.dataset.q === activeQ;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-pressed', String(isActive));
   });
 }
 
@@ -178,26 +183,26 @@ function initSliders() {
 }
 
 function onSliderChange(changedDim) {
-  // Read raw values from all sliders, then normalize to sum = 1
   const raw = Object.fromEntries(DIMS.map(d => [d, parseInt(document.getElementById(`sl-${d}`).value) || 0]));
   const total = DIMS.reduce((s, d) => s + raw[d], 0);
-  // All-zero is undefined — snap back to equal so display always matches stored weights
   if (total === 0) {
     DIMS.forEach(d => { weights[d] = 0.2; });
   } else {
     DIMS.forEach(d => { weights[d] = raw[d] / total; });
   }
 
-  // Update display values to show the normalized percentage
   DIMS.forEach(d => {
     document.getElementById(`sl-${d}`).value = Math.round(weights[d] * 100);
     document.getElementById(`sv-${d}`).textContent = `${Math.round(weights[d] * 100)}%`;
   });
 
-  renderBarChart();
-  renderDimensionCharts();
-  renderTable();
-  if (pinnedSku) refreshDetailScore(pinnedSku);
+  clearTimeout(sliderDebounceTimer);
+  sliderDebounceTimer = setTimeout(() => {
+    renderBarChart();
+    renderDimensionCharts();
+    renderTable();
+    if (pinnedSku) refreshDetailScore(pinnedSku);
+  }, 80);
 }
 
 function resetWeights() {
@@ -236,6 +241,17 @@ function updateQuadrantCardHighlights() {
 
 function renderBarChart() {
   const visible = getFilteredSkus();
+  if (visible.length === 0) {
+    Plotly.react('chart-bar', [], {
+      paper_bgcolor: '#f5f3ee', plot_bgcolor: '#f5f3ee',
+      height: 160, margin: { l: 20, r: 20, t: 20, b: 20 },
+      xaxis: { visible: false }, yaxis: { visible: false },
+      annotations: [{ text: 'No SKUs match this filter', showarrow: false,
+        font: { family: "'Source Sans 3', sans-serif", size: 14, color: '#595959' },
+        xref: 'paper', yref: 'paper', x: 0.5, y: 0.5 }],
+    }, { displayModeBar: false, responsive: true });
+    return;
+  }
   // Sort globally by score ascending (lowest at bottom = worst to best top-to-bottom)
   const sorted = [...visible].sort((a, b) => computeScore(a) - computeScore(b));
 
@@ -329,6 +345,18 @@ function renderDimensionCharts() {
 
 function renderOneDimChart(dim) {
   const visible = getFilteredSkus();
+  const id = `chart-dim-${dim}`;
+  if (visible.length === 0) {
+    Plotly.react(id, [], {
+      paper_bgcolor: '#f5f3ee', plot_bgcolor: '#f5f3ee',
+      height: 160, margin: { l: 20, r: 20, t: 20, b: 20 },
+      xaxis: { visible: false }, yaxis: { visible: false },
+      annotations: [{ text: 'No SKUs match this filter', showarrow: false,
+        font: { family: "'Source Sans 3', sans-serif", size: 14, color: '#595959' },
+        xref: 'paper', yref: 'paper', x: 0.5, y: 0.5 }],
+    }, { displayModeBar: false, responsive: true });
+    return;
+  }
   const sorted = [...visible].sort((a, b) => a.scores[dim] - b.scores[dim]);
 
   const y      = sorted.map(s => s.sku);
@@ -379,7 +407,6 @@ function renderOneDimChart(dim) {
   };
 
   const config = { displayModeBar: false, responsive: true };
-  const id = `chart-dim-${dim}`;
   Plotly.react(id, [trace], layout, config);
 
   const el = document.getElementById(id);
@@ -401,6 +428,13 @@ function renderTable() {
 
   const tbody = document.getElementById('sku-tbody');
   tbody.innerHTML = '';
+
+  if (sorted.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="9" style="text-align:center;color:var(--text-secondary);padding:24px;">No SKUs match this filter.</td>`;
+    tbody.appendChild(tr);
+    return;
+  }
 
   sorted.forEach(sku => {
     const tr = document.createElement('tr');
@@ -429,14 +463,12 @@ function renderTable() {
 function dimScoreColor(score) {
   if (score >= 4) return '#158f75';
   if (score === 3) return '#595959';
-  if (score === 2) return '#0a5c4b';
   return '#cc100a';
 }
 
 function compositeScoreColor(score) {
   if (score >= 4) return '#158f75';
   if (score >= 3) return '#333333';
-  if (score >= 2) return '#0a5c4b';
   return '#cc100a';
 }
 
