@@ -33,7 +33,7 @@ const DIM_RAW_KEYS = {
 const Q_COLORS = {
   double_down: '#158f75',
   maintain:    '#1f2e7a',
-  fix_or_kill: '#0a5c4b',
+  fix_or_kill: '#ee8a2a',
   kill:        '#cc100a',
 };
 const Q_LABELS = {
@@ -82,7 +82,7 @@ async function init() {
     initSliders();
     renderSummaryCards();
     renderBarChart();
-    renderScatterChart();
+    renderDimensionCharts();
     renderTable();
     wireEvents();
 
@@ -110,6 +110,14 @@ function wireEvents() {
   document.getElementById('line-filter').addEventListener('change', onFiltersChange);
   document.getElementById('q-filter').addEventListener('change', onFiltersChange);
 
+  // Bucket filter buttons
+  document.querySelectorAll('.bucket-btn[data-q]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('q-filter').value = btn.dataset.q;
+      onFiltersChange();
+    });
+  });
+
   // Quadrant summary cards — click to set q-filter
   document.querySelectorAll('.quadrant-card[data-q]').forEach(card => {
     const q = card.dataset.q;
@@ -128,7 +136,7 @@ function wireEvents() {
     const card = document.getElementById('detail-card');
     if (!card.hidden && !card.contains(e.target)) {
       // only dismiss if click wasn't on a chart (Plotly owns those clicks)
-      if (!e.target.closest('#chart-bar') && !e.target.closest('#chart-scatter') &&
+      if (!e.target.closest('#chart-bar') && !e.target.closest('.dim-charts-stack') &&
           !e.target.closest('.sku-table')) {
         hideDetailCard();
       }
@@ -137,10 +145,18 @@ function wireEvents() {
 }
 
 function onFiltersChange() {
+  const activeQ = document.getElementById('q-filter').value;
   renderBarChart();
-  renderScatterChart();
+  renderDimensionCharts();
   renderTable();
   updateQuadrantCardHighlights();
+  syncBucketButtons(activeQ);
+}
+
+function syncBucketButtons(activeQ) {
+  document.querySelectorAll('.bucket-btn[data-q]').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.q === activeQ);
+  });
 }
 
 // ─── Sliders ──────────────────────────────────────────────────────────────────
@@ -179,7 +195,7 @@ function onSliderChange(changedDim) {
   });
 
   renderBarChart();
-  renderScatterChart();
+  renderDimensionCharts();
   renderTable();
   if (pinnedSku) refreshDetailScore(pinnedSku);
 }
@@ -192,7 +208,7 @@ function resetWeights() {
     document.getElementById(`sv-${d}`).textContent = '20%';
   });
   renderBarChart();
-  renderScatterChart();
+  renderDimensionCharts();
   renderTable();
   if (pinnedSku) refreshDetailScore(pinnedSku);
 }
@@ -235,7 +251,7 @@ function renderBarChart() {
     y, x,
     marker: { color: colors },
     customdata: custom,
-    hovertemplate: '<b>%{y}</b><br>%{customdata[1]}<br>Score: %{customdata[2]} &mdash; %{customdata[0]}<extra></extra>',
+    hovertemplate: '<b>%{y}</b><br>%{customdata[1]}<br>Score: %{customdata[2]} — %{customdata[0]}<extra></extra>',
     showlegend: false,
   };
 
@@ -305,73 +321,72 @@ function renderBarChart() {
   });
 }
 
-// ─── Scatter chart ────────────────────────────────────────────────────────────
+// ─── Dimension charts ─────────────────────────────────────────────────────────
 
-function renderScatterChart() {
+function renderDimensionCharts() {
+  DIMS.forEach(dim => renderOneDimChart(dim));
+}
+
+function renderOneDimChart(dim) {
   const visible = getFilteredSkus();
-  const traces = Q_ORDER.map(q => {
-    const skus = visible.filter(s => s.quadrant === q);
-    return {
-      type: 'scatter',
-      mode: 'markers',
-      name: Q_LABELS[q],
-      x: skus.map(s => s.scores.velocity),
-      y: skus.map(s => s.scores.contribution_margin),
-      customdata: skus.map(s => s.sku),
-      text: skus.map(s => s.sku),
-      marker: {
-        color: Q_COLORS[q],
-        size: 9,
-        line: { color: 'rgba(255,255,255,0.5)', width: 1 },
-      },
-      hovertemplate:
-        '<b>%{customdata}</b><br>Velocity: %{x}<br>Margin: %{y}<extra></extra>',
-    };
-  });
+  const sorted = [...visible].sort((a, b) => a.scores[dim] - b.scores[dim]);
 
-  const axis = {
-    range: [0.5, 5.5],
-    tickvals: [1, 2, 3, 4, 5],
-    tickfont: { family: "'Source Sans 3', sans-serif", size: 11, color: '#595959' },
-    gridcolor: '#d9d9d9',
-    zeroline: false,
+  const y      = sorted.map(s => s.sku);
+  const x      = sorted.map(s => s.scores[dim]);
+  const colors = sorted.map(s => dimScoreColor(s.scores[dim]));
+  const custom = sorted.map(s => [Q_LABELS[s.quadrant], s.product_line]);
+
+  const trace = {
+    type: 'bar',
+    orientation: 'h',
+    y, x,
+    marker: { color: colors },
+    customdata: custom,
+    hovertemplate: '<b>%{y}</b><br>%{customdata[1]}<br>Score: %{x} — %{customdata[0]}<extra></extra>',
+    showlegend: false,
   };
+
+  const barH = 18;
+  const height = Math.max(420, sorted.length * barH + 130);
 
   const layout = {
     paper_bgcolor: '#f5f3ee',
     plot_bgcolor: '#f5f3ee',
-    margin: { l: 48, r: 16, t: 10, b: 60 },
+    margin: { l: 100, r: 40, t: 10, b: 40 },
     xaxis: {
-      ...axis,
-      title: { text: 'Velocity Score', font: { family: "'Source Sans 3', sans-serif", size: 12, color: '#595959' } },
+      range: [0, 5.3],
+      tickvals: [1, 2, 3, 4, 5],
+      tickfont: { family: "'Source Sans 3', sans-serif", size: 11, color: '#595959' },
+      gridcolor: '#d9d9d9',
+      gridwidth: 1,
+      zeroline: false,
     },
     yaxis: {
-      ...axis,
-      title: { text: 'Margin Score', font: { family: "'Source Sans 3', sans-serif", size: 12, color: '#595959' }, standoff: 8 },
+      automargin: true,
+      tickfont: { family: 'monospace', size: 10, color: '#333333' },
+      gridcolor: 'rgba(0,0,0,0)',
+      fixedrange: true,
     },
-    height: 380,
-    showlegend: true,
-    legend: {
-      font: { family: "'Source Sans 3', sans-serif", size: 11 },
-      bgcolor: 'rgba(245,243,238,0.9)',
-      x: 0.02, y: 0.98,
-      xanchor: 'left', yanchor: 'top',
-    },
-    // Reference lines at score=3
-    shapes: [
-      { type: 'line', x0: 3, x1: 3, y0: 0.5, y1: 5.5, line: { color: '#666666', width: 1, dash: 'dot' } },
-      { type: 'line', x0: 0.5, x1: 5.5, y0: 3, y1: 3, line: { color: '#666666', width: 1, dash: 'dot' } },
-    ],
+    height,
+    showlegend: false,
+    shapes: [{
+      type: 'line',
+      x0: 3, x1: 3,
+      y0: -0.5, y1: sorted.length - 0.5,
+      line: { color: '#666666', width: 1, dash: 'dot' },
+    }],
+    bargap: 0.28,
   };
 
   const config = { displayModeBar: false, responsive: true };
-  Plotly.newPlot('chart-scatter', traces, layout, config);
+  const id = `chart-dim-${dim}`;
+  Plotly.react(id, [trace], layout, config);
 
-  const scatterDiv = document.getElementById('chart-scatter');
-  scatterDiv.removeAllListeners && scatterDiv.removeAllListeners('plotly_click');
-  scatterDiv.on('plotly_click', evt => {
+  const el = document.getElementById(id);
+  el.removeAllListeners && el.removeAllListeners('plotly_click');
+  el.on('plotly_click', evt => {
     const pt = evt.points[0];
-    if (pt && pt.customdata) showDetailCard(pt.customdata);
+    if (pt && pt.y) showDetailCard(pt.y);
   });
 }
 

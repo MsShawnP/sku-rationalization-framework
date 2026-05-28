@@ -83,17 +83,55 @@
       </div>
     </section>
 
-    <!-- Charts -->
-    <section class="charts-grid">
-      <div class="chart-panel">
-        <h2 class="chart-title">Portfolio Ranking by Weighted Score</h2>
-        <p class="chart-subtitle">Sorted by composite score. Color = action bucket. Click any bar for detail. Dashed line = score of 3.</p>
-        <div id="chart-bar" class="chart-container"></div>
+    <!-- Bucket filter -->
+    <section class="bucket-filter">
+      <span class="bucket-filter__label">Filter by bucket:</span>
+      <div class="bucket-filter__buttons" id="bucket-filter-buttons">
+        <button class="bucket-btn bucket-btn--all is-active" data-q="">All SKUs</button>
+        <button class="bucket-btn bucket-btn--double-down" data-q="double_down">Double Down</button>
+        <button class="bucket-btn bucket-btn--maintain" data-q="maintain">Maintain</button>
+        <button class="bucket-btn bucket-btn--fix-or-kill" data-q="fix_or_kill">Fix or Kill</button>
+        <button class="bucket-btn bucket-btn--kill" data-q="kill">Kill</button>
       </div>
-      <div class="chart-panel">
-        <h2 class="chart-title">Velocity vs. Contribution Margin</h2>
-        <p class="chart-subtitle">Dimension scores 1&ndash;5. Reference lines at 3. Click any point for detail.</p>
-        <div id="chart-scatter" class="chart-container"></div>
+    </section>
+
+    <!-- Portfolio ranking -->
+    <section class="chart-panel">
+      <h2 class="chart-title">Portfolio Ranking by Weighted Score</h2>
+      <p class="chart-subtitle">Sorted by composite score. Color = action bucket. Click any bar for detail. Dashed line = score of 3.</p>
+      <div id="chart-bar" class="chart-container"></div>
+    </section>
+
+    <!-- Dimension charts -->
+    <section class="dimension-charts">
+      <h2 class="section-title">Dimension Breakdown</h2>
+      <p class="section-desc">Each chart ranks all SKUs on one dimension. Green = strong (4&ndash;5), grey = average (3), red = weak (1&ndash;2). Click any bar for detail.</p>
+      <div class="dim-charts-stack">
+        <div class="chart-panel">
+          <h2 class="chart-title">Velocity</h2>
+          <p class="chart-subtitle">Units sold per store per week. Higher score = faster mover. Dashed line = score of 3.</p>
+          <div id="chart-dim-velocity" class="chart-container"></div>
+        </div>
+        <div class="chart-panel">
+          <h2 class="chart-title">Contribution Margin</h2>
+          <p class="chart-subtitle">Loaded margin after all costs. Higher score = more profitable. Dashed line = score of 3.</p>
+          <div id="chart-dim-contribution_margin" class="chart-container"></div>
+        </div>
+        <div class="chart-panel">
+          <h2 class="chart-title">Shelf Space Cost</h2>
+          <p class="chart-subtitle">Annual cost of shelf placement. Higher score = lower cost burden. Dashed line = score of 3.</p>
+          <div id="chart-dim-shelf_space_cost" class="chart-container"></div>
+        </div>
+        <div class="chart-panel">
+          <h2 class="chart-title">Production Complexity</h2>
+          <p class="chart-subtitle">Landed cost as share of MSRP. Higher score = simpler to produce. Dashed line = score of 3.</p>
+          <div id="chart-dim-production_complexity" class="chart-container"></div>
+        </div>
+        <div class="chart-panel">
+          <h2 class="chart-title">Cannibalization Risk</h2>
+          <p class="chart-subtitle">Velocity erosion from sister SKUs. Higher score = less cannibalization. Dashed line = score of 3.</p>
+          <div id="chart-dim-cannibalization_risk" class="chart-container"></div>
+        </div>
       </div>
     </section>
 

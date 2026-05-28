@@ -79,7 +79,10 @@
   --card-item:     #ededed;
   --q-double-down: #158f75;
   --q-maintain:    #1f2e7a;
-  --q-fix-or-kill: #0a5c4b;
+  --q-fix-or-kill: #ee8a2a; /* Singapore-55 — warning signal */
+  --sg-55:         #ee8a2a;
+  --sg-95:         #fdeee0;
+  --sg-20:         #7a3d10;
   --q-kill:        #cc100a;
   --radius:        2px;
   --content-max:   900px;
@@ -313,15 +316,51 @@ body {
   color: var(--text-secondary);
 }
 
-/* ─── Charts ─────────────────────────────────────────── */
-.charts-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 32px;
-  align-items: start;
+/* ─── Bucket filter ──────────────────────────────────── */
+.bucket-filter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
-.charts-grid .chart-panel:first-child {
-  grid-column: 1 / -1;
+.bucket-filter__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+.bucket-filter__buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bucket-btn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--grid-line);
+  background: white;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 120ms;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.bucket-btn:hover { border-color: var(--navy-light); color: var(--text-primary); }
+.bucket-btn.is-active { color: white; border-color: transparent; }
+.bucket-btn--all.is-active         { background: var(--text-primary); }
+.bucket-btn--double-down.is-active { background: var(--q-double-down); }
+.bucket-btn--maintain.is-active    { background: var(--q-maintain); }
+.bucket-btn--fix-or-kill.is-active { background: var(--q-fix-or-kill); }
+.bucket-btn--kill.is-active        { background: var(--q-kill); }
+
+/* ─── Charts ─────────────────────────────────────────── */
+.dim-charts-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 .chart-title {
   font-family: var(--font-serif);
@@ -426,7 +465,7 @@ body {
 }
 .badge--double-down { background: #e0f4ee; color: var(--q-double-down); }
 .badge--maintain    { background: #e5e8f5; color: var(--q-maintain); }
-.badge--fix-or-kill { background: var(--hk-dark-light); color: var(--hk-dark); }
+.badge--fix-or-kill { background: var(--sg-95); color: var(--sg-20); }
 .badge--kill        { background: #fde8e7; color: var(--q-kill); }
 
 /* ─── Detail card ────────────────────────────────────── */
@@ -585,8 +624,6 @@ body {
 /* ─── Responsive ─────────────────────────────────────── */
 @media (max-width: 720px) {
   .quadrant-summary { grid-template-columns: repeat(2, 1fr); }
-  .charts-grid { grid-template-columns: 1fr; }
-  .charts-grid .chart-panel:first-child { grid-column: auto; }
   .slider-row { grid-template-columns: 140px 1fr 44px; }
   .site-header__inner { flex-direction: column; gap: 12px; }
   .site-header__divider { display: none; }
