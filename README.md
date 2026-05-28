@@ -102,7 +102,7 @@ See [docs/scoring_methodology.md](docs/scoring_methodology.md) for full detail, 
 
 ## Consulting offer
 
-This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement ($15K–$25K). The engagement delivers:
+This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement. The engagement delivers:
 
 - Full scored output for your portfolio
 - Kill list with quantified annual savings (shelf cost + loaded contribution impact)
