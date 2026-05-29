@@ -9,6 +9,22 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-05-28 — Code review completion, CSS token audit, compound
+
+**Started from:** V1 complete and tagged v1.0. `/ce:review` pipeline had returned all 8 agent results.
+
+**Did:**
+- Completed `/ce:review` synthesis — 9 findings resolved. 7 safe_auto applied (type annotations, SQL precision, scatter event guard, chart color fixes, font tokens). 2 manual fixes approved: 80ms debounce on weight sliders (F06), zero-SKU empty states for bar chart / dimension charts / table (F07).
+- Full CSS token audit against `LAILARA_DESIGN_SYSTEM.md` — found and fixed 5 deviations in `lailara.css`: removed invented `--canvas-hover`, corrected badge hex values to `--chicago-95: #e8eaf4` and `--red-95: #fce8e7`, replaced inline rgba with `var(--card-border)`, fixed print `#333` → `var(--text-primary)`, mobile border-radius `4px` → `2px`.
+- Pushed all commits to GitHub.
+- `/ce:compound` Full mode — produced `docs/solutions/conventions/css-design-token-drift-2026-05-28.md`.
+
+**State:** V1 complete. All code review findings resolved. CSS tokens fully compliant. Main branch clean, pushed, demo live.
+
+**Next:** Cross-link demo from Velocity Decision Tool portfolio page (deferred).
+
+---
+
 ## 2026-05-28 — Demo UI overhaul: dimension charts, bucket filter, design system fixes
 
 **Started from:** v1.0 tagged, all Heavy-tier steps done. Cross-link from Velocity Decision Tool deferred.

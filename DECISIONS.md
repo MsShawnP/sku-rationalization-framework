@@ -101,6 +101,16 @@ Each entry:
 
 ---
 
+## Design System
+
+### 2026-05-28 — CSS token audit is a mandatory pre-milestone step for all Lailara projects
+- **Decision:** Before every milestone commit (version tags, PRs touching CSS), grep all hex values in CSS files and verify each against the authoritative `LAILARA_DESIGN_SYSTEM.md`. All hex values must live only in `:root`; every `:root` token must trace to a named design system step.
+- **Why:** Five deviations accumulated in `lailara.css` during V1 authoring without an audit pass. Two involved off-by-1-to-3 digit hex values (`#e5e8f5` vs `#e8eaf4`, `#fde8e7` vs `#fce8e7`) that are invisible on screen but wrong in print and against the spec. One was an invented token (`--canvas-hover`) with no design system backing. None were caught until the `/ce:review` pass.
+- **Scope:** All projects using the Lailara design system; any session that writes or extends CSS rule bodies.
+- **Do not:** Write hex values directly in rule bodies, even if the value appears correct. Only `:root` token definitions may contain hex literals.
+
+---
+
 ## Reversed / Superseded
 
 [Nothing yet]

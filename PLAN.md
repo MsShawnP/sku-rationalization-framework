@@ -92,6 +92,10 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
 
 ## Arc history
 
+### 2026-05-28 — Code review, CSS audit, compound (arc complete)
+- Outcome: `/ce:review` 9 findings resolved (debounce, empty states, CSS tokens, chart colors). Full CSS token audit — 5 deviations corrected against `LAILARA_DESIGN_SYSTEM.md`. `/ce:compound` solution doc: `docs/solutions/conventions/css-design-token-drift-2026-05-28.md`. All pushed.
+- Deferred (1 item): cross-link demo from Velocity Decision Tool portfolio page
+
 ### 2026-05-28 — Heavy-tier workflow complete (pending v1.0 tag)
 - Outcome: /ce:review (18 findings, LEFT JOIN architecture, SQL threshold fix, font self-hosting), /qa (all interactions pass, zero errors), /ce:compound (logic-error solution doc written)
 - Next: git tag v1.0, cross-link from Velocity Decision Tool (deferred)

@@ -121,3 +121,31 @@ produce a durable rule.
 **Status:** Resolved
 
 **Tags:** dbt, staging, dependencies, build-order
+
+---
+
+### 2026-05-28 — `preview_screenshot` times out on Plotly charts with many series
+
+**Attempted:** `preview_screenshot` to verify visual state of the demo tool after CSS changes.
+
+**Why it didn't work:** Plotly rendering 5 bar charts × 50 bars exhausts the screenshot tool's timeout on every attempt.
+
+**What we tried instead:** `preview_eval` to compute CSS variable values directly; `preview_snapshot` for DOM structure. Both work reliably for non-visual verification on heavy Plotly pages.
+
+**Status:** Resolved (workaround)
+
+**Tags:** plotly, preview, screenshot, timeout, css-verification
+
+---
+
+### 2026-05-28 — Browser CSS cache serves stale file after edits
+
+**Attempted:** Edited `lailara.css`, restarted preview server, ran `preview_screenshot` / `getComputedStyle` to verify corrected token values.
+
+**Why it didn't work:** Browser served the cached stylesheet even after a server restart and `window.location.reload()`. `getComputedStyle` showed old hex values.
+
+**What we tried instead:** Busted the cache by updating the stylesheet link href via JS: `link.href = '/app/css/lailara.css?v=' + Date.now()`. Confirmed correct values immediately after.
+
+**Status:** Resolved
+
+**Tags:** css, browser-cache, cache-busting, verification
