@@ -149,3 +149,31 @@ produce a durable rule.
 **Status:** Resolved
 
 **Tags:** css, browser-cache, cache-busting, verification
+
+---
+
+### 2026-06-01 — `/security-review` skill fails without a git diff baseline
+
+**Attempted:** Ran `/security-review` as part of the `/improve` deep review pass.
+
+**Why it didn't work:** The skill requires a resolvable git diff baseline (branch or PR). It errors with `fatal: ambiguous argument 'origin/HEAD...'` when run against a project with no open PR or branch diff.
+
+**What we tried instead:** Spawned a manual security-audit agent with explicit file targets. Returned the same depth of findings.
+
+**Status:** Resolved (workaround)
+
+**Tags:** security-review, skill, improve, diff-baseline
+
+---
+
+### 2026-06-01 — Security audit agent produced a false-positive critical finding
+
+**Attempted:** Accepted the agent's "C2: `.env` path disagreement between scripts" as a critical finding without manually verifying.
+
+**Why it didn't work:** The agent saw 3-parent vs 4-parent ancestor counts and flagged them as mismatched, without accounting for the scripts being at different directory depths. Both paths resolve to the same location.
+
+**What we tried instead:** Ran a Python one-liner to resolve both paths and compare them. They matched exactly. No code change needed.
+
+**Status:** Resolved (no fix needed)
+
+**Tags:** agent-output, false-positive, verification, path-resolution

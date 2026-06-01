@@ -9,6 +9,18 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-01 — First post-v1.0 /improve audit
+
+**Started from:** V1 complete, tagged, pushed. First `/improve` session.
+
+**Did:** Full 7-category audit + security review. Fixed all 10 findings: requirements.txt, shared db.py module, 6 new JSON contract tests (80 total), esc() helper in app.js, SRI hash on Plotly CDN, PLAN.md tasks marked complete, portfolio brief moved to docs/, .gitignore hardened, CLAUDE.md stack section filled in.
+
+**State:** V1 fully audited. 80 tests passing. Clean, pushed.
+
+**Next:** Cross-link demo from Velocity Decision Tool portfolio page (one deferred item since v1.0).
+
+---
+
 ## 2026-06-01 09:57
 
 **What changed:** First post-v1.0 /improve audit — all 10 findings resolved, 80 tests passing.

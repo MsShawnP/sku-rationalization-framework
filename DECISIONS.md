@@ -111,6 +111,16 @@ Each entry:
 
 ---
 
+## Process & Workflow
+
+### 2026-06-01 — Verify agent-flagged critical findings before presenting them as critical
+- **Decision:** Before surfacing any agent finding as Critical or High severity, manually verify it against the actual code.
+- **Why:** A security audit agent flagged a `.env` path disagreement as critical. Manual verification showed both paths resolved identically — the difference in ancestor count was correct given the scripts' different directory depths. Presenting an unverified agent finding as "Critical" erodes trust in the audit process.
+- **Scope:** All sessions using automated review agents (`/ce:review`, `/security-review`, custom audit agents). Global.
+- **Do not:** Present agent-flagged Critical/High findings to the user without first checking them manually against the actual code.
+
+---
+
 ## Reversed / Superseded
 
 [Nothing yet]
