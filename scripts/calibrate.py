@@ -22,30 +22,12 @@ from pathlib import Path
 import psycopg2
 import psycopg2.extras
 
+# Allow running as `python scripts/calibrate.py` from the project root
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from src.scoring.db import connect, load_env  # noqa: E402
 
 _DEFAULT_ENV = Path(__file__).parent.parent.parent.parent / "active datasources" / "cinderhaven-data-platform" / ".env"
 PLATFORM_ENV = Path(os.environ["CINDERHAVEN_ENV"]) if "CINDERHAVEN_ENV" in os.environ else _DEFAULT_ENV
-
-def load_env(path: Path) -> None:
-    if not path.exists():
-        return
-    for line in path.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, _, val = line.partition("=")
-        os.environ.setdefault(key.strip(), val.strip())
-
-
-def connect() -> psycopg2.extensions.connection:
-    load_env(PLATFORM_ENV)
-    return psycopg2.connect(
-        host="localhost",
-        port=5432,
-        dbname="cinderhaven",
-        user="postgres",
-        password=os.environ["POSTGRES_PASSWORD"],
-    )
 
 
 PERCENTILE_SQLS = {
@@ -279,7 +261,7 @@ def render_constants(p: dict) -> str:
 def main() -> None:
     print("Connecting to Cinderhaven Postgres via proxy...")
     try:
-        conn = connect()
+        conn = connect(PLATFORM_ENV)
     except psycopg2.OperationalError as e:
         print(f"Connection failed: {e}", file=sys.stderr)
         print("Is `flyctl proxy 5432:5432 -a cinderhaven-db` running?", file=sys.stderr)

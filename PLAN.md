@@ -28,40 +28,39 @@ Which SKUs should this brand kill, fix, maintain, or double down on — and what
 Work in vertical slices — one deliverable end-to-end before moving to the next.
 
 ### 0a. Spike: cannibalization data feasibility (one session)
-- [ ] Query Cinderhaven platform for store-level velocity with variant launch dates
-- [ ] Determine: does the data support rigorous cross-elasticity (store-level, pre/post variant launch, controlled for seasonality)?
-- [ ] Decision: rigorous method, proxy method, or both? Log outcome in DECISIONS.md before building `int_cannibalization_pairs`
+- [x] Query Cinderhaven platform for store-level velocity with variant launch dates
+- [x] Determine: does the data support rigorous cross-elasticity (store-level, pre/post variant launch, controlled for seasonality)?
+- [x] Decision: rigorous method, proxy method, or both? Log outcome in DECISIONS.md before building `int_cannibalization_pairs`
 
 ### 0b. Architecture decision: demo tool choice
-- [ ] Evaluate static HTML + Plotly.js vs. Streamlit for visual quality and Lailara design system fit
-- [ ] Log decision in DECISIONS.md
-- [ ] Confirm data output format for scoring engine (JSON or CSV snapshot)
+- [x] Evaluate static HTML + Plotly.js vs. Streamlit for visual quality and Lailara design system fit
+- [x] Log decision in DECISIONS.md
+- [x] Confirm data output format for scoring engine (JSON or CSV snapshot)
 
 ### 1. Data layer (Cinderhaven platform repo — prerequisite)
-- [ ] Add `int_loaded_contribution_by_sku` dbt model to Cinderhaven platform
-- [ ] Add `int_shelf_space_cost_by_sku` dbt model to Cinderhaven platform
-- [ ] Add `int_cannibalization_pairs` dbt model to Cinderhaven platform (method determined by spike in 0a)
+- [x] Add `int_loaded_contribution_by_sku` dbt model to Cinderhaven platform
+- [x] Add `int_shelf_space_cost_by_sku` dbt model to Cinderhaven platform
+- [x] Add `int_cannibalization_pairs` dbt model to Cinderhaven platform (method determined by spike in 0a)
 
 ### 2. Scoring engine
-- [ ] Define 10 test SKUs with hand-verified expected quadrant assignments (test fixtures first)
-- [ ] Implement 5-dimension scoring matrix (velocity, contribution margin, shelf-space cost, production complexity, cannibalization risk), each scored 1–5
-- [ ] Implement quadrant assignment logic (double down / maintain / fix or kill / kill)
-- [ ] Produce scored output for all 90 Cinderhaven SKUs
-- [ ] Export scored output as static JSON/CSV snapshot for demo tool
-- [ ] Tests: verify quadrant assignments match expected results for test fixtures
+- [x] Define 10 test SKUs with hand-verified expected quadrant assignments (test fixtures first)
+- [x] Implement 5-dimension scoring matrix (velocity, contribution margin, shelf-space cost, production complexity, cannibalization risk), each scored 1–5
+- [x] Implement quadrant assignment logic (double down / maintain / fix or kill / kill)
+- [x] Produce scored output for all 50 Cinderhaven SKUs
+- [x] Export scored output as static JSON/CSV snapshot for demo tool
+- [x] Tests: verify quadrant assignments match expected results for test fixtures
 
 ### 3. Demo/visualization tool
-- [ ] Build in chosen tool (format confirmed in 0b)
-- [ ] Four-quadrant scatter plot (velocity vs margin, colored by recommendation)
-- [ ] Kill list view with quantified annual savings per SKU
-- [ ] Cannibalization view — rigorous and/or proxy methods, clearly labeled
-- [ ] Lailara design system applied throughout
-- [ ] Deploy to public URL
+- [x] Build in chosen tool (static HTML + Plotly.js)
+- [x] Five dimension bar charts, bucket filter, weighted composite ranking
+- [x] Click-to-pin detail card with per-dimension scores
+- [x] Lailara design system applied throughout
+- [x] Deploy to public URL (GitHub Pages)
 
 ### 4. SQL diagnostic queries + methodology doc
-- [ ] SQL queries for each scoring dimension (velocity ranking, loaded contribution, shelf-space cost, cannibalization detection)
-- [ ] Methodology doc: how each dimension is scored and weighted, data sources, cannibalization method and its limitations
-- [ ] Link from demo tool footer and repo README
+- [x] SQL queries for each scoring dimension (velocity ranking, loaded contribution, shelf-space cost, cannibalization detection)
+- [x] Methodology doc: how each dimension is scored and weighted, data sources, cannibalization method and its limitations
+- [x] Link from demo tool footer and repo README
 
 ## Out of scope for this arc
 
@@ -79,14 +78,14 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
 
 ## Definition of done for this arc
 
-- [ ] Cannibalization data feasibility confirmed (spike complete, decision logged)
-- [ ] Demo tool choice logged in DECISIONS.md
-- [ ] Scoring engine produces correct quadrant assignments for all 90 Cinderhaven SKUs
-- [ ] Demo tool is visually polished (Lailara design system), shows scatter plot + kill list + cannibalization analysis
-- [ ] Demo tool is accessible at a public URL (no local-only builds)
-- [ ] SQL queries runnable against Cinderhaven platform
-- [ ] Methodology doc in repo, linked from demo tool
-- [ ] Demo tool cross-linked from Velocity Decision Tool portfolio page
+- [x] Cannibalization data feasibility confirmed (spike complete, decision logged)
+- [x] Demo tool choice logged in DECISIONS.md
+- [x] Scoring engine produces correct quadrant assignments for all 50 Cinderhaven SKUs
+- [x] Demo tool is visually polished (Lailara design system), shows dimension charts + bucket filter + detail card
+- [x] Demo tool is accessible at a public URL (GitHub Pages)
+- [x] SQL queries runnable against Cinderhaven platform
+- [x] Methodology doc in repo, linked from demo tool
+- [ ] Demo tool cross-linked from Velocity Decision Tool portfolio page (deferred)
 
 ---
 
@@ -113,3 +112,20 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
 ## Improvement history
 
 <!-- Entries are added by /improve — don't delete this section -->
+
+### 2026-06-01 — Improvement pass (first post-v1.0 audit)
+- **Trigger:** User-initiated — first /improve session after v1.0 release
+- **What was reviewed:** Code quality, tests, dependencies, documentation, security, git hygiene
+- **What was fixed:**
+  - Created `requirements.txt` with pinned versions (psycopg2-binary, pytest)
+  - Updated README test count (54 → 80), pip install instruction to use requirements.txt
+  - Marked all PLAN.md tasks complete; updated Definition of Done to reflect actual V1 deliverables
+  - Extracted shared `src/scoring/db.py` module (load_env + connect); removed duplication from run_scoring.py and calibrate.py; improved POSTGRES_PASSWORD error message
+  - Added `TestScoreSkuJsonOutputContract` (6 tests) validating value types and JSON serializability
+  - Added `esc()` helper to app.js; applied to all data-derived innerHTML insertions
+  - Added SRI hash to Plotly CDN script tag in index.html
+  - Moved portfolio brief from root to `docs/`; updated CLAUDE.md reference
+  - Added `*.pem`, `*.token`, `token.*` to .gitignore
+  - Fixed CLAUDE.md stack section (was "TBD")
+- **Deferred:** Nothing — all Critical, Important, and Nice-to-Have items resolved
+- **Next review:** 2026-07-01

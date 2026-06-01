@@ -44,6 +44,19 @@ const Q_LABELS = {
 };
 const Q_ORDER = ['kill', 'fix_or_kill', 'maintain', 'double_down'];
 
+// ─── Utilities ────────────────────────────────────────────────────────────────
+
+/** Escape a value for safe insertion into innerHTML templates.
+ *  Prevents XSS if the JSON data source is ever replaced with untrusted input.
+ */
+function esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 // ─── State ────────────────────────────────────────────────────────────────────
 
 let allSkus = [];
@@ -449,11 +462,11 @@ function renderTable() {
     const qClass = sku.quadrant.replace('_', '-');
 
     tr.innerHTML = `
-      <td class="sku-code">${sku.sku}</td>
-      <td class="product-line">${sku.product_line}</td>
+      <td class="sku-code">${esc(sku.sku)}</td>
+      <td class="product-line">${esc(sku.product_line)}</td>
       ${dimCells}
       <td class="score-cell" style="color:${compositeScoreColor(parseFloat(score))}">${score}</td>
-      <td><span class="badge badge--${qClass}">${Q_LABELS[sku.quadrant]}</span></td>
+      <td><span class="badge badge--${esc(qClass)}">${Q_LABELS[sku.quadrant]}</span></td>
     `;
     tr.addEventListener('click', () => showDetailCard(sku.sku));
     tbody.appendChild(tr);
@@ -484,7 +497,7 @@ function showDetailCard(skuCode) {
 
   const badgeWrap = document.getElementById('dc-badge-wrap');
   const qClass = sku.quadrant.replace('_', '-');
-  badgeWrap.innerHTML = `<span class="badge badge--${qClass}" style="font-size:11px;padding:3px 9px;">${Q_LABELS[sku.quadrant]}</span>`;
+  badgeWrap.innerHTML = `<span class="badge badge--${esc(qClass)}" style="font-size:11px;padding:3px 9px;">${Q_LABELS[sku.quadrant]}</span>`;
 
   refreshDetailScore(skuCode);
 

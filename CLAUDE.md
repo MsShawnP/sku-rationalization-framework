@@ -21,8 +21,8 @@ consulting foot-in-the-door offer ($15K–$25K SKU Portfolio Audit engagement).
 
 ## Stack and tools
 
-- Stack TBD — determined during /clarify
-- Project brief: portfolio_project_brief_sku_rationalization.md
+- Stack: Python 3.13, psycopg2, dbt, static HTML + Plotly.js, pytest
+- Project brief: docs/portfolio_project_brief_sku_rationalization.md
 
 ## Project files
 

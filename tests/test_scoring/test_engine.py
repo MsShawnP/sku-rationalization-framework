@@ -60,6 +60,58 @@ class TestScoreSkuOutputShape:
         assert result["weights_used"] == w
 
 
+class TestScoreSkuJsonOutputContract:
+    """Verify the value types that app.js depends on.
+
+    If score_sku() changes the types or valid values here, the demo tool
+    breaks silently at runtime. These tests catch that at the Python layer.
+    """
+
+    _VALID_QUADRANTS = {"double_down", "maintain", "fix_or_kill", "kill", "insufficient_data"}
+    _DIMENSIONS = {"velocity", "contribution_margin", "shelf_space_cost",
+                   "production_complexity", "cannibalization_risk"}
+
+    def test_score_values_are_integers_1_to_5_for_full_data(self):
+        result = score_sku(**_FULL)
+        for dim, val in result["scores"].items():
+            assert isinstance(val, int), f"{dim} score should be int, got {type(val)}"
+            assert 1 <= val <= 5, f"{dim} score {val} is outside [1, 5]"
+
+    def test_weighted_score_is_float_in_range(self):
+        result = score_sku(**_FULL)
+        assert isinstance(result["weighted_score"], float)
+        assert 1.0 <= result["weighted_score"] <= 5.0
+
+    def test_quadrant_is_valid_enum_value(self):
+        result = score_sku(**_FULL)
+        assert result["quadrant"] in self._VALID_QUADRANTS
+
+    def test_sku_and_product_line_are_strings(self):
+        result = score_sku(**_FULL)
+        assert isinstance(result["sku"], str)
+        assert isinstance(result["product_line"], str)
+
+    def test_output_is_json_serializable(self):
+        import json
+        result = score_sku(**_FULL)
+        serialized = json.dumps(result)  # raises if not serializable
+        roundtripped = json.loads(serialized)
+        assert roundtripped["sku"] == _SKU
+        assert roundtripped["quadrant"] == result["quadrant"]
+
+    def test_insufficient_data_sku_has_none_weighted_score(self):
+        result = score_sku(
+            sku="MISSING-001", product_line="Test",
+            uspw=None,
+            loaded_margin_pct=None,
+            annual_shelf_space_cost=None,
+            complexity_ratio=None,
+            cannibalization_risk=None,
+        )
+        assert result["quadrant"] == "insufficient_data"
+        assert result["weighted_score"] is None
+
+
 class TestScoreSkuCannibalizationNone:
     """cannibalization_risk=None means no signal — should not count as missing data."""
 

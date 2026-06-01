@@ -19,6 +19,7 @@ from pathlib import Path
 import psycopg2
 import psycopg2.extras
 
+from src.scoring.db import connect
 from src.scoring.engine import score_sku
 from src.scoring.quadrants import DEFAULT_WEIGHTS
 
@@ -113,26 +114,6 @@ ORDER BY pm.product_line, pm.sku
 """
 
 
-def load_env(path: Path) -> None:
-    if not path.exists():
-        return
-    for line in path.read_text().splitlines():
-        line = line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, _, val = line.partition("=")
-        os.environ.setdefault(key.strip(), val.strip())
-
-
-def connect() -> psycopg2.extensions.connection:
-    load_env(PLATFORM_ENV)
-    return psycopg2.connect(
-        host="localhost",
-        port=5432,
-        dbname="cinderhaven",
-        user="postgres",
-        password=os.environ["POSTGRES_PASSWORD"],
-    )
 
 
 def fetch_raw_skus(conn: psycopg2.extensions.connection) -> list[dict]:
@@ -163,7 +144,7 @@ def main() -> None:
 
     print("Connecting to Cinderhaven Postgres via proxy...")
     try:
-        conn = connect()
+        conn = connect(PLATFORM_ENV)
     except psycopg2.OperationalError as e:
         print(f"Connection failed: {e}", file=sys.stderr)
         print("Is `flyctl proxy 5432:5432 -a cinderhaven-db` running?", file=sys.stderr)

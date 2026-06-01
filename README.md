@@ -24,14 +24,14 @@ The Cinderhaven case study (included) applies the framework to a 50-SKU portfoli
 - **Scoring engine:** Python 3.13, `psycopg2`
 - **Data models:** dbt (Cinderhaven Postgres via Fly.io)
 - **Demo tool:** Static HTML + Plotly.js 2.27 + Lailara Design System v2
-- **Tests:** pytest (54 unit tests)
+- **Tests:** pytest (80 unit tests)
 
 ---
 
 ## Prerequisites
 
 - Python 3.13+
-- `pip install psycopg2-binary pytest`
+- `pip install -r requirements.txt`
 - flyctl proxy running: `flyctl proxy 5432:5432 -a cinderhaven-db`
 - `POSTGRES_PASSWORD` env var set (or `.env` in the cinderhaven-data-platform repo)
 

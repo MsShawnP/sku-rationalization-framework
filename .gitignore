@@ -35,6 +35,9 @@ data/sensitive/
 
 # Secrets
 *.key
+*.pem
+*.token
+token.*
 credentials.*
 secrets.*
 .env.*
