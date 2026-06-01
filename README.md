@@ -2,7 +2,7 @@
 
 A multi-dimensional SKU scoring and visualization framework for specialty food brands at $10M–$30M revenue. Scores every SKU across five dimensions — velocity, contribution margin, shelf-space cost, production complexity, and cannibalization risk — and classifies each SKU into one of four action buckets: double down, maintain, fix or kill, or kill.
 
-**Demo:** `https://MsShawnP.github.io/sku-rationalization-framework/app/`
+**Demo:** `https://sku.lailarallc.com`
 
 ---
 
