@@ -9,6 +9,18 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-01 09:57
+
+**What changed:** First post-v1.0 /improve audit — all 10 findings resolved, 80 tests passing.
+
+**Why:** First health check after v1.0 release. Audit found no tests/lockfile/stale docs/security gaps; all fixed in one pass.
+
+**State:** All green. requirements.txt exists, shared db.py module, SRI on Plotly CDN, esc() in app.js, 80 tests passing, repo pushed.
+
+**Next:** /wrap to close the session, then tag v1.1.
+
+---
+
 ## 2026-05-28 — Code review completion, CSS token audit, compound
 
 **Started from:** V1 complete and tagged v1.0. `/ce:review` pipeline had returned all 8 agent results.
