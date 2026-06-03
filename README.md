@@ -110,3 +110,6 @@ This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement.
 - Methodology doc and SQL queries for your internal team
 
 Contact: msshawnp@gmail.com
+
+---
+Built by [Lailara LLC](https://lailarallc.com) — data hygiene and analytics consulting for specialty food brands scaling into national retail.
