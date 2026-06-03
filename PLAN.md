@@ -101,7 +101,7 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
 
 ### 2026-05-28 — V1 implementation
 - Outcome: U1–U7 complete — calibration, scoring engine, demo tool, SQL queries, methodology doc
-- Live: https://msshawnp.github.io/sku-rationalization-framework/app/
+- Live: https://sku.lailarallc.com
 
 ### 2026-05-28 — Foundation
 - Outcome: Repo scaffolded, state files created, GitHub remote created, /clarify + gates complete

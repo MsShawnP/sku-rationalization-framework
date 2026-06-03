@@ -93,7 +93,7 @@ For things that didn't work, see FAILURES.md.
 - U2–U3: Three dbt intermediate models in cinderhaven-data-platform repo — `int_loaded_contribution_by_sku`, `int_shelf_space_cost_by_sku`, `int_cannibalization_pairs`. All 15 schema tests passing.
 - U4: `scripts/calibrate.py` — queries Cinderhaven Postgres, writes percentile thresholds to `src/scoring/constants.py`. Thresholds calibrated from actual data.
 - U5: Scoring engine — 5 pure scoring functions, quadrant assignment, engine assembler, `run_scoring.py` CLI. 54 unit tests passing. Result: 19 kill, 22 fix_or_kill, 7 maintain, 2 double_down.
-- U6: Demo tool live at https://msshawnp.github.io/sku-rationalization-framework/app/ — ranked bar chart, scatter, 5 weight sliders, click-to-pin detail card, filters. Lailara Design System v2.
+- U6: Demo tool live at https://sku.lailarallc.com — ranked bar chart, scatter, 5 weight sliders, click-to-pin detail card, filters. Lailara Design System v2.
 - U7: `sql/diagnostic_queries.sql` (6 queries), `docs/scoring_methodology.md`, README updated. Pricing removed from all public content.
 
 **State:** V1 shipped. Repo public at https://github.com/MsShawnP/sku-rationalization-framework. GitHub Pages live.
