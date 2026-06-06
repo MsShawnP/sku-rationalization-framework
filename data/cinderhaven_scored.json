@@ -9,6 +9,13 @@
       "maintain": 7,
       "double_down": 2
     },
+    "weights": {
+      "velocity": 0.2,
+      "contribution_margin": 0.2,
+      "shelf_space_cost": 0.2,
+      "production_complexity": 0.2,
+      "cannibalization_risk": 0.2
+    },
     "methodology_note": "Cannibalization scored via proxy (cross-sectional velocity comparison). All margins negative after full cost loading \u2014 scoring is portfolio-relative."
   },
   "skus": [

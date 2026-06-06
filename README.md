@@ -100,6 +100,19 @@ See [docs/scoring_methodology.md](docs/scoring_methodology.md) for full detail, 
 
 ---
 
+## Data Contract
+
+This framework consumes the full Cinderhaven canonical dataset:
+
+- **50 SKUs** across 5 product lines (Artisan Sauces, Pantry Staples, Specialty Condiments, Dried Goods, Snack Bites)
+- **6 contracted retailers:** Walmart, Costco, Whole Foods, Sprouts, Kroger, Regional Group
+- **3 distributors:** UNFI, KeHE, DPI Northwest
+- **1 DTC channel:** Shopify
+
+Scoring uses the full SKU set across all 6 retailers over a 3-year window.
+
+---
+
 ## Consulting offer
 
 This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement. The engagement delivers:
