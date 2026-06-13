@@ -4,8 +4,8 @@
     "scoring_version": "v1",
     "sku_count": 50,
     "quadrant_counts": {
-      "fix_or_kill": 22,
-      "kill": 19,
+      "fix_or_kill": 21,
+      "kill": 20,
       "maintain": 7,
       "double_down": 2
     },
@@ -23,20 +23,20 @@
       "sku": "CHP-AS-001",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 10.8117,
-        "loaded_margin_pct": -4.3786,
+        "uspw": 10.8944,
+        "loaded_margin_pct": -4.3869,
         "annual_shelf_space_cost": 88180.21,
         "complexity_ratio": 0.2914,
         "cannibalization_risk": 0.0
       },
       "scores": {
         "velocity": 5,
-        "contribution_margin": 5,
+        "contribution_margin": 4,
         "shelf_space_cost": 2,
         "production_complexity": 3,
         "cannibalization_risk": 5
       },
-      "weighted_score": 4.0,
+      "weighted_score": 3.8,
       "quadrant": "fix_or_kill",
       "weights_used": {
         "velocity": 0.2,
@@ -50,11 +50,11 @@
       "sku": "CHP-AS-002",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 10.5104,
-        "loaded_margin_pct": -4.6928,
+        "uspw": 10.609,
+        "loaded_margin_pct": -4.675,
         "annual_shelf_space_cost": 85876.63,
         "complexity_ratio": 0.3057,
-        "cannibalization_risk": 0.3009
+        "cannibalization_risk": 0.3154
       },
       "scores": {
         "velocity": 5,
@@ -77,11 +77,11 @@
       "sku": "CHP-AS-003",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 9.6144,
-        "loaded_margin_pct": -8.5561,
+        "uspw": 9.6698,
+        "loaded_margin_pct": -8.5499,
         "annual_shelf_space_cost": 82638.76,
         "complexity_ratio": 0.2546,
-        "cannibalization_risk": 0.252
+        "cannibalization_risk": 0.2638
       },
       "scores": {
         "velocity": 4,
@@ -104,11 +104,11 @@
       "sku": "CHP-AS-004",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 9.4247,
-        "loaded_margin_pct": -4.4806,
+        "uspw": 9.5237,
+        "loaded_margin_pct": -4.4656,
         "annual_shelf_space_cost": 84571.21,
         "complexity_ratio": 0.2678,
-        "cannibalization_risk": 0.0652
+        "cannibalization_risk": 0.0704
       },
       "scores": {
         "velocity": 4,
@@ -131,11 +131,11 @@
       "sku": "CHP-AS-005",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 8.6568,
-        "loaded_margin_pct": -4.6691,
+        "uspw": 8.6529,
+        "loaded_margin_pct": -4.6861,
         "annual_shelf_space_cost": 80828.27,
         "complexity_ratio": 0.2897,
-        "cannibalization_risk": 0.5522
+        "cannibalization_risk": 0.5461
       },
       "scores": {
         "velocity": 3,
@@ -158,11 +158,11 @@
       "sku": "CHP-AS-006",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 11.001,
-        "loaded_margin_pct": -4.5384,
+        "uspw": 11.0614,
+        "loaded_margin_pct": -4.5275,
         "annual_shelf_space_cost": 90127.85,
         "complexity_ratio": 0.2723,
-        "cannibalization_risk": 0.1087
+        "cannibalization_risk": 0.107
       },
       "scores": {
         "velocity": 5,
@@ -185,21 +185,21 @@
       "sku": "CHP-AS-007",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 11.0515,
-        "loaded_margin_pct": -4.4306,
+        "uspw": 11.0828,
+        "loaded_margin_pct": -4.4269,
         "annual_shelf_space_cost": 89788.84,
         "complexity_ratio": 0.2733,
-        "cannibalization_risk": 0.1203
+        "cannibalization_risk": 0.1275
       },
       "scores": {
         "velocity": 5,
         "contribution_margin": 4,
         "shelf_space_cost": 2,
         "production_complexity": 3,
-        "cannibalization_risk": 3
+        "cannibalization_risk": 2
       },
-      "weighted_score": 3.4,
-      "quadrant": "fix_or_kill",
+      "weighted_score": 3.2,
+      "quadrant": "kill",
       "weights_used": {
         "velocity": 0.2,
         "contribution_margin": 0.2,
@@ -212,11 +212,11 @@
       "sku": "CHP-AS-008",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 10.3029,
-        "loaded_margin_pct": -4.127,
+        "uspw": 10.3611,
+        "loaded_margin_pct": -4.1363,
         "annual_shelf_space_cost": 78076.56,
         "complexity_ratio": 0.2461,
-        "cannibalization_risk": 0.3703
+        "cannibalization_risk": 0.3587
       },
       "scores": {
         "velocity": 5,
@@ -239,8 +239,8 @@
       "sku": "CHP-AS-009",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 9.6909,
-        "loaded_margin_pct": -5.136,
+        "uspw": 9.7596,
+        "loaded_margin_pct": -5.155,
         "annual_shelf_space_cost": 97284.78,
         "complexity_ratio": 0.3086,
         "cannibalization_risk": 0.0
@@ -266,11 +266,11 @@
       "sku": "CHP-AS-010",
       "product_line": "Artisan Sauces",
       "raw": {
-        "uspw": 9.8786,
-        "loaded_margin_pct": -4.5692,
+        "uspw": 9.9519,
+        "loaded_margin_pct": -4.5614,
         "annual_shelf_space_cost": 100688.35,
         "complexity_ratio": 0.3015,
-        "cannibalization_risk": 0.1098
+        "cannibalization_risk": 0.1161
       },
       "scores": {
         "velocity": 4,
@@ -293,8 +293,8 @@
       "sku": "CHP-DG-001",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.2912,
-        "loaded_margin_pct": -4.3363,
+        "uspw": 9.3228,
+        "loaded_margin_pct": -4.3424,
         "annual_shelf_space_cost": 77066.33,
         "complexity_ratio": 0.2578,
         "cannibalization_risk": 0.0
@@ -320,11 +320,11 @@
       "sku": "CHP-DG-002",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 10.0401,
-        "loaded_margin_pct": -4.4421,
+        "uspw": 10.0746,
+        "loaded_margin_pct": -4.4295,
         "annual_shelf_space_cost": 82385.75,
         "complexity_ratio": 0.2662,
-        "cannibalization_risk": 0.0431
+        "cannibalization_risk": 0.0257
       },
       "scores": {
         "velocity": 5,
@@ -347,11 +347,11 @@
       "sku": "CHP-DG-003",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.7097,
-        "loaded_margin_pct": -8.1984,
+        "uspw": 9.7314,
+        "loaded_margin_pct": -8.2214,
         "annual_shelf_space_cost": 86795.51,
         "complexity_ratio": 0.2386,
-        "cannibalization_risk": 0.0559
+        "cannibalization_risk": 0.0656
       },
       "scores": {
         "velocity": 4,
@@ -374,8 +374,8 @@
       "sku": "CHP-DG-004",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.5435,
-        "loaded_margin_pct": -7.7839,
+        "uspw": 9.5904,
+        "loaded_margin_pct": -7.7475,
         "annual_shelf_space_cost": 80172.28,
         "complexity_ratio": 0.2285,
         "cannibalization_risk": 0.0
@@ -401,20 +401,20 @@
       "sku": "CHP-DG-005",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.9282,
-        "loaded_margin_pct": -4.9966,
+        "uspw": 9.9756,
+        "loaded_margin_pct": -4.9898,
         "annual_shelf_space_cost": 83404.11,
         "complexity_ratio": 0.2953,
         "cannibalization_risk": 0.0
       },
       "scores": {
-        "velocity": 4,
+        "velocity": 5,
         "contribution_margin": 3,
         "shelf_space_cost": 4,
         "production_complexity": 3,
         "cannibalization_risk": 5
       },
-      "weighted_score": 3.8,
+      "weighted_score": 4.0,
       "quadrant": "maintain",
       "weights_used": {
         "velocity": 0.2,
@@ -428,8 +428,8 @@
       "sku": "CHP-DG-006",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.1467,
-        "loaded_margin_pct": -3.9739,
+        "uspw": 9.2234,
+        "loaded_margin_pct": -3.9776,
         "annual_shelf_space_cost": 86843.65,
         "complexity_ratio": 0.2419,
         "cannibalization_risk": 0.0
@@ -455,20 +455,20 @@
       "sku": "CHP-DG-007",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.3803,
-        "loaded_margin_pct": -4.888,
+        "uspw": 9.4694,
+        "loaded_margin_pct": -4.9059,
         "annual_shelf_space_cost": 89518.77,
         "complexity_ratio": 0.3159,
         "cannibalization_risk": 0.0
       },
       "scores": {
-        "velocity": 3,
+        "velocity": 4,
         "contribution_margin": 3,
         "shelf_space_cost": 2,
         "production_complexity": 2,
         "cannibalization_risk": 5
       },
-      "weighted_score": 3.0,
+      "weighted_score": 3.2,
       "quadrant": "kill",
       "weights_used": {
         "velocity": 0.2,
@@ -482,11 +482,11 @@
       "sku": "CHP-DG-008",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 10.0176,
+        "uspw": 10.1027,
         "loaded_margin_pct": -4.3872,
         "annual_shelf_space_cost": 86555.75,
         "complexity_ratio": 0.2657,
-        "cannibalization_risk": 0.0456
+        "cannibalization_risk": 0.0436
       },
       "scores": {
         "velocity": 5,
@@ -509,8 +509,8 @@
       "sku": "CHP-DG-009",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.4388,
-        "loaded_margin_pct": -3.8276,
+        "uspw": 9.4672,
+        "loaded_margin_pct": -3.8218,
         "annual_shelf_space_cost": 85133.77,
         "complexity_ratio": 0.2487,
         "cannibalization_risk": 0.0
@@ -536,20 +536,20 @@
       "sku": "CHP-DG-010",
       "product_line": "Dried Goods",
       "raw": {
-        "uspw": 9.3649,
-        "loaded_margin_pct": -4.9518,
+        "uspw": 9.4062,
+        "loaded_margin_pct": -4.951,
         "annual_shelf_space_cost": 85783.94,
         "complexity_ratio": 0.3077,
-        "cannibalization_risk": 0.0643
+        "cannibalization_risk": 0.1187
       },
       "scores": {
-        "velocity": 3,
+        "velocity": 4,
         "contribution_margin": 3,
         "shelf_space_cost": 4,
         "production_complexity": 2,
         "cannibalization_risk": 3
       },
-      "weighted_score": 3.0,
+      "weighted_score": 3.2,
       "quadrant": "fix_or_kill",
       "weights_used": {
         "velocity": 0.2,
@@ -563,11 +563,11 @@
       "sku": "CHP-PS-001",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 7.7941,
-        "loaded_margin_pct": -4.0022,
+        "uspw": 7.8617,
+        "loaded_margin_pct": -4.0058,
         "annual_shelf_space_cost": 78145.55,
         "complexity_ratio": 0.2471,
-        "cannibalization_risk": 0.0759
+        "cannibalization_risk": 0.1108
       },
       "scores": {
         "velocity": 2,
@@ -590,8 +590,8 @@
       "sku": "CHP-PS-002",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 10.0499,
-        "loaded_margin_pct": -5.465,
+        "uspw": 10.1342,
+        "loaded_margin_pct": -5.46,
         "annual_shelf_space_cost": 96095.64,
         "complexity_ratio": 0.3413,
         "cannibalization_risk": 0.0
@@ -617,11 +617,11 @@
       "sku": "CHP-PS-003",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 10.0266,
-        "loaded_margin_pct": -3.9887,
+        "uspw": 10.0236,
+        "loaded_margin_pct": -3.9806,
         "annual_shelf_space_cost": 82090.6,
         "complexity_ratio": 0.2527,
-        "cannibalization_risk": 0.1658
+        "cannibalization_risk": 0.1555
       },
       "scores": {
         "velocity": 5,
@@ -644,20 +644,20 @@
       "sku": "CHP-PS-004",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 8.7376,
-        "loaded_margin_pct": -2.994,
+        "uspw": 8.81,
+        "loaded_margin_pct": -2.9931,
         "annual_shelf_space_cost": 82743.52,
         "complexity_ratio": 0.4034,
-        "cannibalization_risk": 0.0506
+        "cannibalization_risk": 0.0352
       },
       "scores": {
         "velocity": 3,
         "contribution_margin": 5,
         "shelf_space_cost": 4,
         "production_complexity": 1,
-        "cannibalization_risk": 3
+        "cannibalization_risk": 4
       },
-      "weighted_score": 3.2,
+      "weighted_score": 3.4,
       "quadrant": "fix_or_kill",
       "weights_used": {
         "velocity": 0.2,
@@ -671,8 +671,8 @@
       "sku": "CHP-PS-005",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 9.3378,
-        "loaded_margin_pct": -7.3099,
+        "uspw": 9.3719,
+        "loaded_margin_pct": -7.3061,
         "annual_shelf_space_cost": 88735.82,
         "complexity_ratio": 0.2244,
         "cannibalization_risk": 0.0
@@ -698,8 +698,8 @@
       "sku": "CHP-PS-006",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 8.0779,
-        "loaded_margin_pct": -7.3833,
+        "uspw": 8.1721,
+        "loaded_margin_pct": -7.3685,
         "annual_shelf_space_cost": 80533.46,
         "complexity_ratio": 0.2277,
         "cannibalization_risk": 0.0
@@ -725,20 +725,20 @@
       "sku": "CHP-PS-007",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 8.3654,
-        "loaded_margin_pct": -7.4708,
+        "uspw": 8.4019,
+        "loaded_margin_pct": -7.4427,
         "annual_shelf_space_cost": 82825.7,
         "complexity_ratio": 0.217,
-        "cannibalization_risk": 0.1675
+        "cannibalization_risk": 0.1455
       },
       "scores": {
-        "velocity": 2,
+        "velocity": 3,
         "contribution_margin": 2,
         "shelf_space_cost": 4,
         "production_complexity": 5,
         "cannibalization_risk": 2
       },
-      "weighted_score": 3.0,
+      "weighted_score": 3.2,
       "quadrant": "kill",
       "weights_used": {
         "velocity": 0.2,
@@ -752,11 +752,11 @@
       "sku": "CHP-PS-008",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 7.8719,
-        "loaded_margin_pct": -7.7168,
+        "uspw": 7.8916,
+        "loaded_margin_pct": -7.7243,
         "annual_shelf_space_cost": 84921.64,
         "complexity_ratio": 0.2294,
-        "cannibalization_risk": 0.074
+        "cannibalization_risk": 0.0891
       },
       "scores": {
         "velocity": 2,
@@ -779,8 +779,8 @@
       "sku": "CHP-PS-009",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 10.2338,
-        "loaded_margin_pct": -6.0081,
+        "uspw": 10.2987,
+        "loaded_margin_pct": -5.9989,
         "annual_shelf_space_cost": 81888.84,
         "complexity_ratio": 0.342,
         "cannibalization_risk": 0.0
@@ -806,8 +806,8 @@
       "sku": "CHP-PS-010",
       "product_line": "Pantry Staples",
       "raw": {
-        "uspw": 10.1736,
-        "loaded_margin_pct": -5.3279,
+        "uspw": 10.2193,
+        "loaded_margin_pct": -5.3332,
         "annual_shelf_space_cost": 88501.57,
         "complexity_ratio": 0.3154,
         "cannibalization_risk": 0.0
@@ -833,8 +833,8 @@
       "sku": "CHP-SB-001",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.9614,
-        "loaded_margin_pct": -8.8562,
+        "uspw": 9.9592,
+        "loaded_margin_pct": -8.8636,
         "annual_shelf_space_cost": 87517.46,
         "complexity_ratio": 0.2489,
         "cannibalization_risk": 0.0
@@ -860,8 +860,8 @@
       "sku": "CHP-SB-002",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.6421,
-        "loaded_margin_pct": -9.3594,
+        "uspw": 9.6916,
+        "loaded_margin_pct": -9.3602,
         "annual_shelf_space_cost": 84074.54,
         "complexity_ratio": 0.2678,
         "cannibalization_risk": 0.0
@@ -887,8 +887,8 @@
       "sku": "CHP-SB-003",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 8.8941,
-        "loaded_margin_pct": -4.701,
+        "uspw": 8.9698,
+        "loaded_margin_pct": -4.6979,
         "annual_shelf_space_cost": 77584.72,
         "complexity_ratio": 0.2909,
         "cannibalization_risk": 0.0
@@ -914,20 +914,20 @@
       "sku": "CHP-SB-004",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.578,
-        "loaded_margin_pct": -7.7897,
+        "uspw": 9.7119,
+        "loaded_margin_pct": -7.7547,
         "annual_shelf_space_cost": 87539.36,
         "complexity_ratio": 0.2365,
-        "cannibalization_risk": 0.249
+        "cannibalization_risk": 0.2545
       },
       "scores": {
         "velocity": 4,
         "contribution_margin": 2,
         "shelf_space_cost": 3,
         "production_complexity": 5,
-        "cannibalization_risk": 2
+        "cannibalization_risk": 1
       },
-      "weighted_score": 3.2,
+      "weighted_score": 3.0,
       "quadrant": "kill",
       "weights_used": {
         "velocity": 0.2,
@@ -941,20 +941,20 @@
       "sku": "CHP-SB-005",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.3431,
-        "loaded_margin_pct": -7.8021,
+        "uspw": 9.4108,
+        "loaded_margin_pct": -7.7638,
         "annual_shelf_space_cost": 87243.85,
         "complexity_ratio": 0.2168,
-        "cannibalization_risk": 0.0457
+        "cannibalization_risk": 0.0494
       },
       "scores": {
-        "velocity": 3,
+        "velocity": 4,
         "contribution_margin": 2,
         "shelf_space_cost": 3,
         "production_complexity": 5,
         "cannibalization_risk": 3
       },
-      "weighted_score": 3.2,
+      "weighted_score": 3.4,
       "quadrant": "fix_or_kill",
       "weights_used": {
         "velocity": 0.2,
@@ -968,8 +968,8 @@
       "sku": "CHP-SB-006",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.6651,
-        "loaded_margin_pct": -4.2368,
+        "uspw": 9.7166,
+        "loaded_margin_pct": -4.2297,
         "annual_shelf_space_cost": 89865.79,
         "complexity_ratio": 0.2737,
         "cannibalization_risk": 0.0
@@ -995,8 +995,8 @@
       "sku": "CHP-SB-007",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.3008,
-        "loaded_margin_pct": -7.7384,
+        "uspw": 9.366,
+        "loaded_margin_pct": -7.7048,
         "annual_shelf_space_cost": 93413.39,
         "complexity_ratio": 0.216,
         "cannibalization_risk": 0.0
@@ -1022,20 +1022,20 @@
       "sku": "CHP-SB-008",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.3779,
-        "loaded_margin_pct": -4.7723,
+        "uspw": 9.4168,
+        "loaded_margin_pct": -4.7702,
         "annual_shelf_space_cost": 86396.59,
         "complexity_ratio": 0.2903,
-        "cannibalization_risk": 0.1072
+        "cannibalization_risk": 0.0912
       },
       "scores": {
-        "velocity": 3,
+        "velocity": 4,
         "contribution_margin": 3,
         "shelf_space_cost": 3,
         "production_complexity": 3,
         "cannibalization_risk": 3
       },
-      "weighted_score": 3.0,
+      "weighted_score": 3.2,
       "quadrant": "maintain",
       "weights_used": {
         "velocity": 0.2,
@@ -1049,11 +1049,11 @@
       "sku": "CHP-SB-009",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 9.5446,
-        "loaded_margin_pct": -7.8449,
+        "uspw": 9.6086,
+        "loaded_margin_pct": -7.8249,
         "annual_shelf_space_cost": 81939.0,
         "complexity_ratio": 0.2304,
-        "cannibalization_risk": 0.1595
+        "cannibalization_risk": 0.1482
       },
       "scores": {
         "velocity": 4,
@@ -1076,11 +1076,11 @@
       "sku": "CHP-SB-010",
       "product_line": "Snack Bites",
       "raw": {
-        "uspw": 10.0577,
-        "loaded_margin_pct": -4.4777,
+        "uspw": 10.1443,
+        "loaded_margin_pct": -4.4805,
         "annual_shelf_space_cost": 87452.74,
         "complexity_ratio": 0.2728,
-        "cannibalization_risk": 0.1651
+        "cannibalization_risk": 0.165
       },
       "scores": {
         "velocity": 5,
@@ -1103,11 +1103,11 @@
       "sku": "CHP-SC-001",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 7.05,
-        "loaded_margin_pct": -4.9971,
+        "uspw": 7.0496,
+        "loaded_margin_pct": -4.9982,
         "annual_shelf_space_cost": 85664.24,
         "complexity_ratio": 0.3243,
-        "cannibalization_risk": 0.2101
+        "cannibalization_risk": 0.2057
       },
       "scores": {
         "velocity": 1,
@@ -1130,8 +1130,8 @@
       "sku": "CHP-SC-002",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 6.1161,
-        "loaded_margin_pct": -4.8305,
+        "uspw": 6.1196,
+        "loaded_margin_pct": -4.8269,
         "annual_shelf_space_cost": 82121.48,
         "complexity_ratio": 0.3004,
         "cannibalization_risk": 0.0
@@ -1157,8 +1157,8 @@
       "sku": "CHP-SC-003",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 7.2416,
-        "loaded_margin_pct": -3.9548,
+        "uspw": 7.3141,
+        "loaded_margin_pct": -3.9439,
         "annual_shelf_space_cost": 84509.78,
         "complexity_ratio": 0.2532,
         "cannibalization_risk": 0.0
@@ -1184,11 +1184,11 @@
       "sku": "CHP-SC-004",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 8.0115,
-        "loaded_margin_pct": -4.8976,
+        "uspw": 8.084,
+        "loaded_margin_pct": -4.9312,
         "annual_shelf_space_cost": 80811.2,
         "complexity_ratio": 0.3103,
-        "cannibalization_risk": 0.2514
+        "cannibalization_risk": 0.2597
       },
       "scores": {
         "velocity": 2,
@@ -1211,8 +1211,8 @@
       "sku": "CHP-SC-005",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 6.8565,
-        "loaded_margin_pct": -4.1871,
+        "uspw": 6.8802,
+        "loaded_margin_pct": -4.1816,
         "annual_shelf_space_cost": 84763.17,
         "complexity_ratio": 0.2504,
         "cannibalization_risk": 0.0
@@ -1238,11 +1238,11 @@
       "sku": "CHP-SC-006",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 7.8294,
-        "loaded_margin_pct": -5.0074,
+        "uspw": 7.9356,
+        "loaded_margin_pct": -5.0332,
         "annual_shelf_space_cost": 91154.78,
         "complexity_ratio": 0.3097,
-        "cannibalization_risk": 0.0909
+        "cannibalization_risk": 0.0588
       },
       "scores": {
         "velocity": 2,
@@ -1265,8 +1265,8 @@
       "sku": "CHP-SC-007",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 8.3691,
-        "loaded_margin_pct": -4.1385,
+        "uspw": 8.3855,
+        "loaded_margin_pct": -4.1401,
         "annual_shelf_space_cost": 97424.05,
         "complexity_ratio": 0.2604,
         "cannibalization_risk": 0.0
@@ -1292,8 +1292,8 @@
       "sku": "CHP-SC-008",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 6.9854,
-        "loaded_margin_pct": -2.4671,
+        "uspw": 7.0002,
+        "loaded_margin_pct": -2.477,
         "annual_shelf_space_cost": 86372.69,
         "complexity_ratio": 0.3692,
         "cannibalization_risk": 0.0
@@ -1319,11 +1319,11 @@
       "sku": "CHP-SC-009",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 7.0767,
-        "loaded_margin_pct": -4.7659,
+        "uspw": 7.145,
+        "loaded_margin_pct": -4.7681,
         "annual_shelf_space_cost": 87911.75,
         "complexity_ratio": 0.2814,
-        "cannibalization_risk": 0.1888
+        "cannibalization_risk": 0.1957
       },
       "scores": {
         "velocity": 1,
@@ -1346,8 +1346,8 @@
       "sku": "CHP-SC-010",
       "product_line": "Specialty Condiments",
       "raw": {
-        "uspw": 7.1744,
-        "loaded_margin_pct": -4.5464,
+        "uspw": 7.2318,
+        "loaded_margin_pct": -4.5405,
         "annual_shelf_space_cost": 88132.3,
         "complexity_ratio": 0.2991,
         "cannibalization_risk": 0.0
