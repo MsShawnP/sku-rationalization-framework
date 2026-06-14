@@ -102,7 +102,7 @@ Cinderhaven has 50 SKUs across five product lines (Artisan Sauces, Specialty Con
 | Fix or kill | 21 | 42% | 12% | $380K |
 | Kill | 20 | 40% | 5% | $290K |
 
-The headline finding: **Cinderhaven's bottom 15 SKUs generate $180K in annual revenue but cost $290K to maintain. They are net-negative by $110K/year.** Killing them saves $110K in direct costs AND frees shelf space for 3–5 new SKUs that could generate $300K–$500K in revenue.
+20 of 50 SKUs scored as Kill — a 40% rate that reflects how far the assortment outran the infrastructure. Combined annual drag: $556K/yr.
 
 The "fix or kill" 15 are even more interesting. Each one has a specific issue:
 - 4 SKUs with velocity below retailer threshold at one retailer but above at another (fix: delist at the underperforming retailer, maintain at the strong one)
