@@ -74,7 +74,7 @@ Data feasibility must be confirmed via spike (Task 0a in PLAN.md) before buildin
 ## V1 Deliverables
 
 ### 1. Demo/visualization tool
-- Cinderhaven 90-SKU portfolio, all 90 SKUs scored
+- Cinderhaven 50-SKU portfolio, all 50 SKUs scored
 - Four-quadrant scatter plot (velocity vs. margin, colored by recommendation)
 - Kill list view — each "Kill" SKU with quantified annual loaded cost above contribution
 - Cannibalization view — rigorous and/or proxy results, clearly labeled with methodology

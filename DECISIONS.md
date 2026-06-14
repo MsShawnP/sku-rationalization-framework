@@ -93,7 +93,7 @@ Each entry:
 - **Scope:** README.md, app/index.html footer, any future case study pages
 - **Do not:** Add pricing back to any file that ships to GitHub Pages. Pricing belongs in proposals and private collateral only.
 
-### 2026-05-28 — Score all 90 SKUs; surface missing-data SKUs as "insufficient_data" quadrant
+### 2026-05-28 — Score all 50 SKUs; surface missing-data SKUs as "insufficient_data" quadrant
 - **Decision:** Convert all INNER JOINs in `run_scoring.py` to LEFT JOINs, drive from `raw.product_master` as the spine. SKUs missing any scored dimension (velocity, margin, shelf cost, complexity) are classified as `"insufficient_data"` rather than silently dropped.
 - **Why:** The original INNER JOIN approach silently excluded ~40 of 90 SKUs. A portfolio audit must account for every SKU in the portfolio — the missing SKUs may be the hardest cases (newly launched, thin scan data, missing cost records). Dropping them understates or overstates the kill list depending on their composition. `"insufficient_data"` surfaces the data gap explicitly so an analyst can investigate rather than trusting an incomplete picture. Cannibalization risk of None is still treated as 0.0 (no signal ≠ missing data — a different category).
 - **Scope:** `run_scoring.py` (query), `src/scoring/dimensions.py` (all 4 non-cannibalization scoring functions), `src/scoring/engine.py` (signature), `src/scoring/quadrants.py` (assign_quadrant, compute_weighted_score)

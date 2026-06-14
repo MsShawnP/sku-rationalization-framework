@@ -91,16 +91,16 @@ Optional 6th dimension: **Strategic value** — brand builder, line filler, entr
 | **Fix or kill** | Fails one dimension badly, fixable root cause identified | Specific fix with timeline; if not fixed in 90 days, delist |
 | **Kill** | Fails two or more dimensions, no fix available | Delist. Quantify savings. Reallocate resources to "double down" SKUs. |
 
-**Part 2 — The proof: Cinderhaven's 90-SKU portfolio analysis**
+**Part 2 — The proof: Cinderhaven's 50-SKU portfolio analysis**
 
-Cinderhaven has 90 SKUs across three product lines (Artisan Sauces, Specialty Condiments, Pantry Staples). The framework scores all 90:
+Cinderhaven has 50 SKUs across five product lines (Artisan Sauces, Specialty Condiments, Pantry Staples, Craft Preserves, Small-Batch Oils). The framework scores all 50:
 
 | Recommendation | SKU Count | % of Portfolio | % of Revenue | Annual Loaded Cost |
 |---------------|:---------:|:--------------:|:------------:|:------------------:|
-| Double down | 12 | 13% | 38% | $420K |
-| Maintain | 48 | 53% | 45% | $1.1M |
-| Fix or kill | 15 | 17% | 12% | $380K |
-| Kill | 15 | 17% | 5% | $290K |
+| Double down | 2 | 4% | 38% | $420K |
+| Maintain | 7 | 14% | 45% | $1.1M |
+| Fix or kill | 21 | 42% | 12% | $380K |
+| Kill | 20 | 40% | 5% | $290K |
 
 The headline finding: **Cinderhaven's bottom 15 SKUs generate $180K in annual revenue but cost $290K to maintain. They are net-negative by $110K/year.** Killing them saves $110K in direct costs AND frees shelf space for 3–5 new SKUs that could generate $300K–$500K in revenue.
 

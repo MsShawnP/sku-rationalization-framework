@@ -7,7 +7,7 @@ session. For session-by-session state, see HANDOFF.md.
 
 ## Goal — 2026-05-28
 
-Ship a multi-dimensional SKU rationalization framework: a polished demo/visualization tool (Cinderhaven 90-SKU data), SQL diagnostic queries, and a scoring methodology doc.
+Ship a multi-dimensional SKU rationalization framework: a polished demo/visualization tool (Cinderhaven 50-SKU data), SQL diagnostic queries, and a scoring methodology doc.
 
 ## Why this arc, why now
 
