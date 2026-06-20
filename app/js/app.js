@@ -43,6 +43,7 @@ const Q_LABELS = {
   kill:        'Kill',
 };
 const Q_ORDER = ['kill', 'fix_or_kill', 'maintain', 'double_down'];
+const Q_THRESHOLDS = { double_down: 4.3, maintain: 3.9, fix_or_kill: 3.3 };
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -70,12 +71,20 @@ function computeScore(sku) {
   return DIMS.reduce((s, d) => s + sku.scores[d] * weights[d], 0);
 }
 
+function getQuadrant(sku) {
+  const score = computeScore(sku);
+  if (score >= Q_THRESHOLDS.double_down) return 'double_down';
+  if (score >= Q_THRESHOLDS.maintain) return 'maintain';
+  if (score >= Q_THRESHOLDS.fix_or_kill) return 'fix_or_kill';
+  return 'kill';
+}
+
 function getFilteredSkus() {
   const lineVal = document.getElementById('line-filter').value;
   const qVal    = document.getElementById('q-filter').value;
   return allSkus.filter(s =>
     (!lineVal || s.product_line === lineVal) &&
-    (!qVal    || s.quadrant === qVal)
+    (!qVal    || getQuadrant(s) === qVal)
   );
 }
 
@@ -211,6 +220,7 @@ function onSliderChange(changedDim) {
 
   clearTimeout(sliderDebounceTimer);
   sliderDebounceTimer = setTimeout(() => {
+    renderSummaryCards();
     renderBarChart();
     renderDimensionCharts();
     renderTable();
@@ -225,6 +235,7 @@ function resetWeights() {
     document.getElementById(`sl-${d}`).value = 20;
     document.getElementById(`sv-${d}`).textContent = '20%';
   });
+  renderSummaryCards();
   renderBarChart();
   renderDimensionCharts();
   renderTable();
@@ -234,9 +245,10 @@ function resetWeights() {
 // ─── Summary cards ────────────────────────────────────────────────────────────
 
 function renderSummaryCards() {
-  Object.keys(Q_LABELS).forEach(q => {
-    document.getElementById(`count-${q}`).textContent =
-      allSkus.filter(s => s.quadrant === q).length;
+  const counts = { double_down: 0, maintain: 0, fix_or_kill: 0, kill: 0 };
+  allSkus.forEach(s => { counts[getQuadrant(s)]++; });
+  Object.keys(counts).forEach(q => {
+    document.getElementById(`count-${q}`).textContent = counts[q];
   });
 }
 
@@ -270,8 +282,8 @@ function renderBarChart() {
 
   const y      = sorted.map(s => s.sku);
   const x      = sorted.map(s => computeScore(s));
-  const colors = sorted.map(s => Q_COLORS[s.quadrant]);
-  const custom = sorted.map(s => [Q_LABELS[s.quadrant], s.product_line, computeScore(s).toFixed(2)]);
+  const colors = sorted.map(s => Q_COLORS[getQuadrant(s)]);
+  const custom = sorted.map(s => [Q_LABELS[getQuadrant(s)], s.product_line, computeScore(s).toFixed(2)]);
 
   // Main data trace (single trace with per-bar colors; legend built separately)
   const dataTrace = {
@@ -375,7 +387,7 @@ function renderOneDimChart(dim) {
   const y      = sorted.map(s => s.sku);
   const x      = sorted.map(s => s.scores[dim]);
   const colors = sorted.map(s => dimScoreColor(s.scores[dim]));
-  const custom = sorted.map(s => [Q_LABELS[s.quadrant], s.product_line]);
+  const custom = sorted.map(s => [Q_LABELS[getQuadrant(s)], s.product_line]);
 
   const trace = {
     type: 'bar',
@@ -459,14 +471,15 @@ function renderTable() {
     }).join('');
 
     const score = computeScore(sku).toFixed(2);
-    const qClass = sku.quadrant.replace('_', '-');
+    const q = getQuadrant(sku);
+    const qClass = q.replace('_', '-');
 
     tr.innerHTML = `
       <td class="sku-code">${esc(sku.sku)}</td>
       <td class="product-line">${esc(sku.product_line)}</td>
       ${dimCells}
       <td class="score-cell" style="color:${compositeScoreColor(parseFloat(score))}">${score}</td>
-      <td><span class="badge badge--${esc(qClass)}">${Q_LABELS[sku.quadrant]}</span></td>
+      <td><span class="badge badge--${esc(qClass)}">${Q_LABELS[q]}</span></td>
     `;
     tr.addEventListener('click', () => showDetailCard(sku.sku));
     tbody.appendChild(tr);
@@ -496,8 +509,9 @@ function showDetailCard(skuCode) {
   document.getElementById('dc-line').textContent = sku.product_line;
 
   const badgeWrap = document.getElementById('dc-badge-wrap');
-  const qClass = sku.quadrant.replace('_', '-');
-  badgeWrap.innerHTML = `<span class="badge badge--${esc(qClass)}" style="font-size:11px;padding:3px 9px;">${Q_LABELS[sku.quadrant]}</span>`;
+  const q = getQuadrant(sku);
+  const qClass = q.replace('_', '-');
+  badgeWrap.innerHTML = `<span class="badge badge--${esc(qClass)}" style="font-size:11px;padding:3px 9px;">${Q_LABELS[q]}</span>`;
 
   refreshDetailScore(skuCode);
 
@@ -535,6 +549,12 @@ function refreshDetailScore(skuCode) {
   const score = computeScore(sku).toFixed(2);
   document.getElementById('dc-score').textContent = score;
   document.getElementById('dc-score').style.color = compositeScoreColor(parseFloat(score));
+  const q = getQuadrant(sku);
+  const qClass = q.replace('_', '-');
+  const badgeWrap = document.getElementById('dc-badge-wrap');
+  if (badgeWrap) {
+    badgeWrap.innerHTML = `<span class="badge badge--${esc(qClass)}" style="font-size:11px;padding:3px 9px;">${Q_LABELS[q]}</span>`;
+  }
 }
 
 function hideDetailCard() {
