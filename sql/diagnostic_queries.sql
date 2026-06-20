@@ -61,26 +61,26 @@ WITH dim_scores AS (
         pm.product_line,
         -- Velocity score
         CASE
-            WHEN v.uspw >= 9.9531 THEN 5
-            WHEN v.uspw >= 9.4025 THEN 4
-            WHEN v.uspw >= 8.3663 THEN 3
-            WHEN v.uspw >= 7.1646 THEN 2
+            WHEN v.uspw >= 13.5066 THEN 5
+            WHEN v.uspw >= 8.3338 THEN 4
+            WHEN v.uspw >= 4.3606 THEN 3
+            WHEN v.uspw >= 2.0201 THEN 2
             ELSE 1
         END AS vel_score,
         -- Margin score (higher = less negative = better)
         CASE
-            WHEN m.loaded_margin_pct >= -4.3807 THEN 5
-            WHEN m.loaded_margin_pct >= -4.7691 THEN 4
-            WHEN m.loaded_margin_pct >= -6.9844 THEN 3
-            WHEN m.loaded_margin_pct >= -7.8064 THEN 2
+            WHEN m.loaded_margin_pct >= -4.3704 THEN 5
+            WHEN m.loaded_margin_pct >= -4.7576 THEN 4
+            WHEN m.loaded_margin_pct >= -6.9733 THEN 3
+            WHEN m.loaded_margin_pct >= -7.7654 THEN 2
             ELSE 1
         END AS margin_score,
         -- Shelf cost score (lower = better)
         CASE
-            WHEN s.annual_shelf_space_cost <= 82449.00 THEN 5
-            WHEN s.annual_shelf_space_cost <= 85830.29 THEN 4
-            WHEN s.annual_shelf_space_cost <= 88168.23 THEN 3
-            WHEN s.annual_shelf_space_cost <= 91380.64 THEN 2
+            WHEN s.annual_shelf_space_cost <= 40136.32 THEN 5
+            WHEN s.annual_shelf_space_cost <= 74765.20 THEN 4
+            WHEN s.annual_shelf_space_cost <= 119627.83 THEN 3
+            WHEN s.annual_shelf_space_cost <= 137925.29 THEN 2
             ELSE 1
         END AS shelf_score,
         -- Complexity score (lower ratio = better)
@@ -94,9 +94,9 @@ WITH dim_scores AS (
         -- Cannibalization score (0 = no signal → 5)
         CASE
             WHEN COALESCE(GREATEST(0, -cp.velocity_delta_pct), 0) = 0 THEN 5
-            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.0456             THEN 4
-            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.1203             THEN 3
-            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.2495             THEN 2
+            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.0000             THEN 4
+            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.0745             THEN 3
+            WHEN GREATEST(0, -cp.velocity_delta_pct) <= 0.2054             THEN 2
             ELSE 1
         END AS cannibal_score,
         -- Raw values
@@ -157,11 +157,11 @@ WITH kill_skus AS (
             pm.sku,
             -- Red flag = score <= 2. Threshold is score >= 3 boundary:
             -- velocity/margin: P25; shelf/complexity/cannibalization: P75.
-            (CASE WHEN v.uspw >= 8.3663 THEN 0 ELSE 1 END +
-             CASE WHEN m.loaded_margin_pct >= -6.9844 THEN 0 ELSE 1 END +
-             CASE WHEN s.annual_shelf_space_cost <= 88168.23 THEN 0 ELSE 1 END +
+            (CASE WHEN v.uspw >= 4.3606 THEN 0 ELSE 1 END +
+             CASE WHEN m.loaded_margin_pct >= -6.9733 THEN 0 ELSE 1 END +
+             CASE WHEN s.annual_shelf_space_cost <= 119627.83 THEN 0 ELSE 1 END +
              CASE WHEN (sc.landed_cost_per_unit/NULLIF(pm.msrp,0)) <= 0.3012 THEN 0 ELSE 1 END +
-             CASE WHEN COALESCE(GREATEST(0,-cp.velocity_delta_pct),0) <= 0.1203 THEN 0 ELSE 1 END
+             CASE WHEN COALESCE(GREATEST(0,-cp.velocity_delta_pct),0) <= 0.0745 THEN 0 ELSE 1 END
             ) AS red_flags
         FROM raw.product_master pm
         JOIN (SELECT sku, AVG(units_sold) AS uspw FROM raw.scan_data GROUP BY sku) v ON pm.sku = v.sku

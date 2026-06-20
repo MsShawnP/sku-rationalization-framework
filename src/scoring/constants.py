@@ -9,27 +9,27 @@
 # --- Velocity (units/store/week) ---
 # Score 5: >= p75, Score 4: p50–p75, Score 3: p25–p50,
 # Score 2: p10–p25, Score 1: < p10
-VELOCITY_P10 = 7.1646
-VELOCITY_P25 = 8.3663
-VELOCITY_P50 = 9.4025
-VELOCITY_P75 = 9.9531
-VELOCITY_P90 = 10.2407
+VELOCITY_P10 = 2.0201
+VELOCITY_P25 = 4.3606
+VELOCITY_P50 = 8.3338
+VELOCITY_P75 = 13.5066
+VELOCITY_P90 = 18.2600
 
 # --- Contribution margin (loaded_margin_pct, 0.0–1.0) ---
-MARGIN_P10 = -7.8064
-MARGIN_P25 = -6.9844
-MARGIN_P50 = -4.7691
-MARGIN_P75 = -4.3807
-MARGIN_P90 = -3.9872
+MARGIN_P10 = -7.7654
+MARGIN_P25 = -6.9733
+MARGIN_P50 = -4.7576
+MARGIN_P75 = -4.3704
+MARGIN_P90 = -3.9754
 
 # --- Shelf-space cost (annual USD) — lower is better ---
 # Score 5: ≤ p25, Score 4: p25–p50, Score 3: p50–p75,
 # Score 2: p75–p90, Score 1: > p90
-SHELF_P10 = 80497.34
-SHELF_P25 = 82449.00
-SHELF_P50 = 85830.29
-SHELF_P75 = 88168.23
-SHELF_P90 = 91380.64
+SHELF_P10 = 24128.67
+SHELF_P25 = 40136.32
+SHELF_P50 = 74765.20
+SHELF_P75 = 119627.83
+SHELF_P90 = 137925.29
 
 # --- Production complexity proxy (landed_cost/msrp ratio) — lower is better ---
 COMPLEX_P10 = 0.2284
@@ -42,6 +42,6 @@ COMPLEX_P90 = 0.3167
 # 0.0 = no signal, positive = velocity drops in shared stores
 CANNIBAL_P10 = 0.0000
 CANNIBAL_P25 = 0.0000
-CANNIBAL_P50 = 0.0456
-CANNIBAL_P75 = 0.1203
-CANNIBAL_P90 = 0.2495
+CANNIBAL_P50 = 0.0000
+CANNIBAL_P75 = 0.0745
+CANNIBAL_P90 = 0.2054
