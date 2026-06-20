@@ -184,7 +184,7 @@ def main() -> None:
 
     output = {
         "meta": {
-            "source": "Cinderhaven Postgres (2024-2027 window)",
+            "source": "Cinderhaven Postgres (2023-2026 window)",
             "scoring_version": "v1",
             "sku_count": len(scored),
             "quadrant_counts": quadrant_counts,

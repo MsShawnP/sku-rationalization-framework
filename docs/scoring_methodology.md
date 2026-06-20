@@ -1,7 +1,7 @@
 # SKU Rationalization Scoring Methodology
 
 **Version:** 1.0  
-**Data source:** Cinderhaven Postgres, 2024–2027 window  
+**Data source:** Cinderhaven Postgres, 2023–2026 window  
 **Portfolio:** 50 SKUs, 5 product lines, 6 retailers
 
 ---
