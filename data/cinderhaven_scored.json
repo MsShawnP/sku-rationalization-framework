@@ -24,7 +24,7 @@
       "product_line": "Artisan Sauces",
       "raw": {
         "uspw": 16.567,
-        "loaded_margin_pct": -4.375,
+        "loaded_margin_pct": -4.3735,
         "annual_shelf_space_cost": 157021.89,
         "complexity_ratio": 0.2914,
         "cannibalization_risk": 0.0
@@ -78,7 +78,7 @@
       "product_line": "Artisan Sauces",
       "raw": {
         "uspw": 9.1995,
-        "loaded_margin_pct": -8.5504,
+        "loaded_margin_pct": -8.5453,
         "annual_shelf_space_cost": 57382.78,
         "complexity_ratio": 0.2546,
         "cannibalization_risk": 0.0
@@ -132,7 +132,7 @@
       "product_line": "Artisan Sauces",
       "raw": {
         "uspw": 9.4495,
-        "loaded_margin_pct": -4.6871,
+        "loaded_margin_pct": -4.6854,
         "annual_shelf_space_cost": 84340.29,
         "complexity_ratio": 0.2897,
         "cannibalization_risk": 0.0038
@@ -213,7 +213,7 @@
       "product_line": "Artisan Sauces",
       "raw": {
         "uspw": 4.3068,
-        "loaded_margin_pct": -4.1291,
+        "loaded_margin_pct": -4.1297,
         "annual_shelf_space_cost": 30068.97,
         "complexity_ratio": 0.2461,
         "cannibalization_risk": 0.0
@@ -294,7 +294,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 8.4689,
-        "loaded_margin_pct": -4.3334,
+        "loaded_margin_pct": -4.3362,
         "annual_shelf_space_cost": 60606.53,
         "complexity_ratio": 0.2578,
         "cannibalization_risk": 0.1158
@@ -321,7 +321,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 12.0499,
-        "loaded_margin_pct": -4.4262,
+        "loaded_margin_pct": -4.4235,
         "annual_shelf_space_cost": 100911.88,
         "complexity_ratio": 0.2662,
         "cannibalization_risk": 0.0
@@ -348,7 +348,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 2.4431,
-        "loaded_margin_pct": -8.2166,
+        "loaded_margin_pct": -8.2139,
         "annual_shelf_space_cost": 132738.86,
         "complexity_ratio": 0.2386,
         "cannibalization_risk": 0.0
@@ -402,7 +402,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 21.6801,
-        "loaded_margin_pct": -4.9797,
+        "loaded_margin_pct": -4.981,
         "annual_shelf_space_cost": 21454.89,
         "complexity_ratio": 0.2953,
         "cannibalization_risk": 0.0
@@ -429,7 +429,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 2.0089,
-        "loaded_margin_pct": -3.9653,
+        "loaded_margin_pct": -3.9655,
         "annual_shelf_space_cost": 21927.97,
         "complexity_ratio": 0.2419,
         "cannibalization_risk": 0.0
@@ -456,7 +456,7 @@
       "product_line": "Dried Goods",
       "raw": {
         "uspw": 17.3336,
-        "loaded_margin_pct": -4.9024,
+        "loaded_margin_pct": -4.9051,
         "annual_shelf_space_cost": 127489.37,
         "complexity_ratio": 0.3159,
         "cannibalization_risk": 0.0
@@ -618,7 +618,7 @@
       "product_line": "Pantry Staples",
       "raw": {
         "uspw": 4.5841,
-        "loaded_margin_pct": -3.9765,
+        "loaded_margin_pct": -3.9776,
         "annual_shelf_space_cost": 74557.64,
         "complexity_ratio": 0.2527,
         "cannibalization_risk": 0.0
@@ -645,7 +645,7 @@
       "product_line": "Pantry Staples",
       "raw": {
         "uspw": 17.5118,
-        "loaded_margin_pct": -2.9892,
+        "loaded_margin_pct": -2.9885,
         "annual_shelf_space_cost": 25440.01,
         "complexity_ratio": 0.4034,
         "cannibalization_risk": 0.0
@@ -753,7 +753,7 @@
       "product_line": "Pantry Staples",
       "raw": {
         "uspw": 1.6381,
-        "loaded_margin_pct": -7.7131,
+        "loaded_margin_pct": -7.7119,
         "annual_shelf_space_cost": 122654.0,
         "complexity_ratio": 0.2294,
         "cannibalization_risk": 0.0
@@ -861,7 +861,7 @@
       "product_line": "Snack Bites",
       "raw": {
         "uspw": 12.6262,
-        "loaded_margin_pct": -9.347,
+        "loaded_margin_pct": -9.3438,
         "annual_shelf_space_cost": 66331.98,
         "complexity_ratio": 0.2678,
         "cannibalization_risk": 0.0
@@ -969,7 +969,7 @@
       "product_line": "Snack Bites",
       "raw": {
         "uspw": 9.9558,
-        "loaded_margin_pct": -4.2157,
+        "loaded_margin_pct": -4.2159,
         "annual_shelf_space_cost": 88188.63,
         "complexity_ratio": 0.2737,
         "cannibalization_risk": 0.0
@@ -996,7 +996,7 @@
       "product_line": "Snack Bites",
       "raw": {
         "uspw": 2.2833,
-        "loaded_margin_pct": -7.6887,
+        "loaded_margin_pct": -7.6911,
         "annual_shelf_space_cost": 114347.24,
         "complexity_ratio": 0.216,
         "cannibalization_risk": 0.0
@@ -1077,7 +1077,7 @@
       "product_line": "Snack Bites",
       "raw": {
         "uspw": 8.8463,
-        "loaded_margin_pct": -4.4647,
+        "loaded_margin_pct": -4.4626,
         "annual_shelf_space_cost": 64409.36,
         "complexity_ratio": 0.2728,
         "cannibalization_risk": 0.0
@@ -1104,7 +1104,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 10.696,
-        "loaded_margin_pct": -4.9863,
+        "loaded_margin_pct": -4.9886,
         "annual_shelf_space_cost": 124645.82,
         "complexity_ratio": 0.3243,
         "cannibalization_risk": 0.0
@@ -1158,7 +1158,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 5.6525,
-        "loaded_margin_pct": -3.937,
+        "loaded_margin_pct": -3.9384,
         "annual_shelf_space_cost": 51087.24,
         "complexity_ratio": 0.2532,
         "cannibalization_risk": 0.0
@@ -1185,7 +1185,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 6.4937,
-        "loaded_margin_pct": -4.9293,
+        "loaded_margin_pct": -4.9342,
         "annual_shelf_space_cost": 89953.35,
         "complexity_ratio": 0.3103,
         "cannibalization_risk": 0.0
@@ -1239,7 +1239,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 2.0086,
-        "loaded_margin_pct": -5.0227,
+        "loaded_margin_pct": -5.0234,
         "annual_shelf_space_cost": 32348.72,
         "complexity_ratio": 0.3097,
         "cannibalization_risk": 0.0
@@ -1266,7 +1266,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 4.5217,
-        "loaded_margin_pct": -4.1189,
+        "loaded_margin_pct": -4.1223,
         "annual_shelf_space_cost": 33594.67,
         "complexity_ratio": 0.2604,
         "cannibalization_risk": 0.0
@@ -1293,7 +1293,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 3.8952,
-        "loaded_margin_pct": -2.4658,
+        "loaded_margin_pct": -2.4647,
         "annual_shelf_space_cost": 87571.99,
         "complexity_ratio": 0.3692,
         "cannibalization_risk": 0.0765
@@ -1347,7 +1347,7 @@
       "product_line": "Specialty Condiments",
       "raw": {
         "uspw": 7.3824,
-        "loaded_margin_pct": -4.5382,
+        "loaded_margin_pct": -4.5398,
         "annual_shelf_space_cost": 79003.62,
         "complexity_ratio": 0.2991,
         "cannibalization_risk": 0.1416
