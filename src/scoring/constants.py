@@ -19,8 +19,8 @@ VELOCITY_P90 = 18.2600
 MARGIN_P10 = -7.7654
 MARGIN_P25 = -6.9733
 MARGIN_P50 = -4.7576
-MARGIN_P75 = -4.3704
-MARGIN_P90 = -3.9754
+MARGIN_P75 = -4.3700
+MARGIN_P90 = -3.9764
 
 # --- Shelf-space cost (annual USD) — lower is better ---
 # Score 5: ≤ p25, Score 4: p25–p50, Score 3: p50–p75,

@@ -69,7 +69,7 @@ WITH dim_scores AS (
         END AS vel_score,
         -- Margin score (higher = less negative = better)
         CASE
-            WHEN m.loaded_margin_pct >= -4.3704 THEN 5
+            WHEN m.loaded_margin_pct >= -4.3700 THEN 5
             WHEN m.loaded_margin_pct >= -4.7576 THEN 4
             WHEN m.loaded_margin_pct >= -6.9733 THEN 3
             WHEN m.loaded_margin_pct >= -7.7654 THEN 2
