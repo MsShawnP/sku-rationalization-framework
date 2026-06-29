@@ -96,7 +96,7 @@ function skuByCode(code) {
 
 async function init() {
   try {
-    const res = await fetch('../data/cinderhaven_scored.json');
+    const res = await fetch('data/cinderhaven_scored.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     allSkus = json.skus;

@@ -43,6 +43,10 @@ secrets.*
 .env.*
 !.env.example
 
+# Deploy artifacts (copied into app/ at deploy time)
+app/data/
+app/docs/
+
 # OS
 .DS_Store
 Thumbs.db
