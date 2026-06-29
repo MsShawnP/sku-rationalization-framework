@@ -9,6 +9,24 @@ For things that didn't work, see FAILURES.md.
 
 ---
 
+## 2026-06-29 — Live-site audit: 4 findings fixed
+
+**Started from:** User audited https://sku.lailarallc.com against the repo, filed 4 findings.
+
+**Did:**
+- **Finding 1 (blocker):** Stale quadrant counts — README.md, HANDOFF.md, and test_canonical_regression.py all said "22 fix_or_kill, 7 maintain, 2 double_down" but data shows 14/16/1. Fixed all instances. Rewrote 3 cannibalization tests in test_dimensions.py to match recalibrated CANNIBAL_P50=0.0.
+- **Finding 2:** Added methodology footer link in index.html → `../docs/scoring_methodology.md`. Styled in lailara.css.
+- **Finding 3:** Replaced static single-weight font files with variable woff2 (Playfair Display v40, Source Sans 3 v19). Faux-bold eliminated.
+- **Finding 4:** README test count updated from "80 (38+16=54)" to "92 (37+26+16+13)".
+- CSS token audit: all :root tokens and inline Plotly hex values verified against Lailara Design System v2. No deviations.
+- 92 tests passing.
+
+**State:** All 4 findings resolved. Tests green. Uncommitted — user has not requested a commit.
+
+**Next:** Commit and deploy. Cross-link demo from Velocity Decision Tool portfolio page (still deferred).
+
+---
+
 ## 2026-06-01 — First post-v1.0 /improve audit
 
 **Started from:** V1 complete, tagged, pushed. First `/improve` session.
@@ -92,7 +110,7 @@ For things that didn't work, see FAILURES.md.
 - U1: Confirmed proxy cannibalization method (DiD not feasible — all SKUs authorized same 6-month window). Confirmed static HTML + Plotly.js over Streamlit.
 - U2–U3: Three dbt intermediate models in cinderhaven-data-platform repo — `int_loaded_contribution_by_sku`, `int_shelf_space_cost_by_sku`, `int_cannibalization_pairs`. All 15 schema tests passing.
 - U4: `scripts/calibrate.py` — queries Cinderhaven Postgres, writes percentile thresholds to `src/scoring/constants.py`. Thresholds calibrated from actual data.
-- U5: Scoring engine — 5 pure scoring functions, quadrant assignment, engine assembler, `run_scoring.py` CLI. 54 unit tests passing. Result: 19 kill, 22 fix_or_kill, 7 maintain, 2 double_down.
+- U5: Scoring engine — 5 pure scoring functions, quadrant assignment, engine assembler, `run_scoring.py` CLI. 54 unit tests passing. Result: 19 kill, 14 fix_or_kill, 16 maintain, 1 double_down.
 - U6: Demo tool live at https://sku.lailarallc.com — ranked bar chart, scatter, 5 weight sliders, click-to-pin detail card, filters. Lailara Design System v2.
 - U7: `sql/diagnostic_queries.sql` (6 queries), `docs/scoring_methodology.md`, README updated. Pricing removed from all public content.
 

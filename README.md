@@ -15,7 +15,7 @@ Given a brand's Postgres data, the framework:
 3. Exports a static JSON snapshot for offline analysis
 4. Serves an interactive demo with adjustable dimension weights, ranked charts, and click-through SKU detail
 
-The Cinderhaven case study (included) applies the framework to a 50-SKU portfolio across 6 retailers over a 3-year window. Result: 19 kill candidates, 22 fix-or-kill, 7 maintain, 2 double down.
+The Cinderhaven case study (included) applies the framework to a 50-SKU portfolio across 6 retailers over a 3-year window. Result: 19 kill, 14 fix-or-kill, 16 maintain, 1 double down.
 
 ---
 
@@ -24,7 +24,7 @@ The Cinderhaven case study (included) applies the framework to a 50-SKU portfoli
 - **Scoring engine:** Python 3.13, `psycopg2`
 - **Data models:** dbt (Cinderhaven Postgres via Fly.io)
 - **Demo tool:** Static HTML + Plotly.js 2.27 + Lailara Design System v2
-- **Tests:** pytest (80 unit tests)
+- **Tests:** pytest (92 unit tests)
 
 ---
 
@@ -85,8 +85,11 @@ src/scoring/
   quadrants.py          — quadrant assignment + weighted composite
   engine.py             — assembles all dimensions for one SKU
 tests/test_scoring/
-  test_dimensions.py    — 38 tests covering all five scoring functions
+  test_dimensions.py    — 37 tests covering all five scoring functions
+  test_engine.py        — 26 tests covering the scoring engine assembler
   test_quadrants.py     — 16 tests covering quadrant assignment + composite
+tests/
+  test_canonical_regression.py — 13 tests guarding the scored JSON artifact
 run_scoring.py          — CLI: query Postgres → score → export JSON
 ```
 

@@ -132,12 +132,13 @@ class TestScoreCannibalizationRisk:
     def test_zero_scores_5(self):
         assert score_cannibalization_risk(0.0) == 5
 
-    def test_at_p50_scores_4(self):
-        # p50 > 0 means non-zero risk but still below median
-        assert score_cannibalization_risk(CANNIBAL_P50) == 4
+    def test_at_p50_scores_5_when_p50_is_zero(self):
+        # After recalibration, CANNIBAL_P50 = 0.0 — exact zero triggers score 5
+        assert score_cannibalization_risk(CANNIBAL_P50) == 5
 
-    def test_between_zero_and_p50_scores_4(self):
-        assert score_cannibalization_risk(CANNIBAL_P50 / 2) == 4
+    def test_small_positive_scores_3_when_p50_is_zero(self):
+        # With CANNIBAL_P50 = 0.0, any nonzero value below P75 scores 3
+        assert score_cannibalization_risk(0.0001) == 3
 
     def test_at_p75_scores_3(self):
         assert score_cannibalization_risk(CANNIBAL_P75) == 3
@@ -147,10 +148,6 @@ class TestScoreCannibalizationRisk:
 
     def test_above_p90_scores_1(self):
         assert score_cannibalization_risk(CANNIBAL_P90 + 0.01) == 1
-
-    def test_only_exact_zero_triggers_score_5(self):
-        # A tiny positive value does NOT get score 5
-        assert score_cannibalization_risk(0.0001) == 4
 
     def test_return_type_is_int(self):
         assert isinstance(score_cannibalization_risk(0.0), int)

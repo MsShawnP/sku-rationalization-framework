@@ -617,6 +617,14 @@ body {
   color: var(--text-secondary);
   font-style: italic;
 }
+.site-footer__methodology {
+  font-size: 11px;
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+.site-footer__methodology:hover {
+  color: var(--navy);
+}
 .site-footer__branding {
   font-size: 11px;
   color: var(--disabled);

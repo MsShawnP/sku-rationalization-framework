@@ -129,3 +129,16 @@ The demo tool is hosted as a standalone public URL (GitHub Pages, Netlify, or St
   - Fixed CLAUDE.md stack section (was "TBD")
 - **Deferred:** Nothing — all Critical, Important, and Nice-to-Have items resolved
 - **Next review:** 2026-07-01
+
+### 2026-06-29 — Live-site audit (user-initiated, 4 findings)
+- **Trigger:** User audited https://sku.lailarallc.com against the repo and filed 4 findings
+- **What was reviewed:** Data consistency (quadrant counts), navigation (methodology link), typography (font weights), documentation (test counts)
+- **What was fixed:**
+  - Stale quadrant counts in README.md, HANDOFF.md, test_canonical_regression.py — all now match source of truth (19 kill, 14 fix_or_kill, 16 maintain, 1 double_down)
+  - Rewrote 3 cannibalization threshold tests in test_dimensions.py to match recalibrated CANNIBAL_P50=0.0 (net: 37 tests, was 38)
+  - Added methodology footer link in index.html pointing to docs/scoring_methodology.md
+  - Replaced static single-weight font files with Google Fonts variable woff2 (Playfair Display v40, Source Sans 3 v19) — eliminates faux-bold
+  - Updated README test count to 92 with correct per-file breakdown
+  - CSS token audit: all :root tokens and inline Plotly hex values verified against Lailara Design System v2 — no deviations
+- **Deferred:** Nothing
+- **Next review:** 2026-07-29
