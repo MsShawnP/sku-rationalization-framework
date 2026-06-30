@@ -120,3 +120,5 @@ have passed. Don't nag.
 - Default to flagging gaps rather than filling with plausible-sounding content
 - Default to short responses unless the task is substantive
 - Default to answering, not offering to answer
+
+Never write secrets, tokens, or passwords into tracked files, READMEs, or commit messages — use environment variables and secret stores only.
