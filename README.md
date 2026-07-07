@@ -1,124 +1,98 @@
-# SKU Rationalization Framework
+# SKU Rationalization Framework — score every SKU, know exactly which ones to cut
 
-A multi-dimensional SKU scoring and visualization framework for specialty food brands at $10M–$30M revenue. Scores every SKU across five dimensions — velocity, contribution margin, shelf-space cost, production complexity, and cannibalization risk — and classifies each SKU into one of four action buckets: double down, maintain, fix or kill, or kill.
+A multi-dimensional SKU scoring and visualization framework for specialty food brands in the $10M–$30M revenue range. It turns raw sales, cost, and shelf data into a ranked kill/keep decision for every product in the portfolio.
 
-**Live:** https://sku.lailarallc.com
-
----
+**Live demo:** https://sku.lailarallc.com
 
 ## What it does
 
 Given a brand's Postgres data, the framework:
 
-1. Scores all 50 SKUs across 5 dimensions using percentile-calibrated thresholds
-2. Assigns each SKU to an action bucket based on red-flag counts (not a weighted average)
-3. Exports a static JSON snapshot for offline analysis
-4. Serves an interactive demo with adjustable dimension weights, ranked charts, and click-through SKU detail
+1. Scores every SKU (1–5) across five dimensions: velocity, contribution margin, shelf-space cost, production complexity, and cannibalization risk
+2. Calibrates scoring thresholds from the portfolio's own p10/p25/p50/p75/p90 distributions — no arbitrary cutoffs
+3. Assigns each SKU to one of four action buckets — double down, maintain, fix or kill, or kill — based on red-flag counts, not a weighted average that can hide a fatal flaw
+4. Exports a static JSON snapshot and serves an interactive demo with adjustable dimension weights, ranked charts, and click-through SKU detail
 
-The Cinderhaven case study (included) applies the framework to a 50-SKU portfolio across 6 retailers over a 3-year window. Result: 19 kill, 14 fix-or-kill, 16 maintain, 1 double down.
+The included Cinderhaven case study applies the framework to a 50-SKU portfolio across 6 retailers over a 3-year window. Result: 19 kill, 14 fix-or-kill, 16 maintain, 1 double down.
 
----
+## Why it matters
 
-## Stack
+Mid-size food brands routinely carry SKUs that lose money on every unit once trade spend, slotting, and shelf costs are fully loaded — but gut-feel portfolio reviews protect them. This framework replaces that debate with evidence:
 
-- **Scoring engine:** Python 3.13, `psycopg2`
-- **Data models:** dbt (Cinderhaven Postgres via Fly.io)
-- **Demo tool:** Static HTML + Plotly.js 2.27 + Lailara Design System v2
-- **Tests:** pytest (92 unit tests)
+- A defensible, data-calibrated kill list instead of opinions about "brand-building" SKUs
+- Shelf-space cost made explicit, so slow movers can't hide behind gross margin
+- Cannibalization measured (via a cross-sectional velocity proxy), so cutting a SKU doesn't silently transfer its problem to a sibling product
+- Adjustable weights in the demo let stakeholders stress-test the ranking live — bucket assignment stays fixed, so the conversation can't be gamed
 
----
+In the case study, 33 of 50 SKUs (66%) landed in kill or fix-or-kill — a typical outcome for portfolios that have grown by line extension.
 
-## Prerequisites
+## Quick start
 
-- Python 3.13+
-- `pip install -r requirements.txt`
-- flyctl proxy running: `flyctl proxy 5432:5432 -a cinderhaven-db`
-- `POSTGRES_PASSWORD` env var set (or `.env` in the cinderhaven-data-platform repo)
+Requires Python 3.13+.
 
----
-
-## How to run
-
-### Run tests
 ```bash
+pip install -r requirements.txt
+
+# Run the test suite (92 tests, no database needed)
 python -m pytest tests/ -v
-```
 
-### Recalibrate thresholds from Cinderhaven data
-```bash
-flyctl proxy 5432:5432 -a cinderhaven-db   # in a separate terminal
-python scripts/calibrate.py
-```
-
-### Re-score all SKUs and export JSON
-```bash
-python run_scoring.py
-```
-Output: `data/cinderhaven_scored.json`
-
-### Run the demo locally
-```bash
+# View the demo locally (uses the committed data snapshot)
 python -m http.server 8080
 # Open: http://localhost:8080/app/
 ```
 
----
+Re-scoring against the live Cinderhaven database additionally requires a flyctl proxy and credentials (`POSTGRES_PASSWORD` env var, or point `CINDERHAVEN_ENV` at a `.env` file):
+
+```bash
+flyctl proxy 5432:5432 -a cinderhaven-db   # in a separate terminal
+
+# Recalibrate percentile thresholds into src/scoring/constants.py
+python scripts/calibrate.py
+
+# Score all SKUs and write data/cinderhaven_scored.json
+python run_scoring.py
+python run_scoring.py --weights vel=0.4,margin=0.3,shelf=0.1,complexity=0.1,cannibal=0.1
+```
+
+## Tech stack
+
+- **Scoring engine:** Python 3.13, `psycopg2`
+- **Data source:** Cinderhaven Postgres on Fly.io (dbt-modeled intermediate views)
+- **Demo tool:** Static HTML + Plotly.js 2.27 + Lailara Design System v2 (no build step)
+- **Tests:** pytest — 92 tests, including a canonical-regression suite guarding the scored JSON artifact
+- **Deployment:** nginx (Docker) on Fly.io (`Dockerfile`, `fly.toml`)
 
 ## Project structure
 
 ```
-app/                    — static demo tool (HTML + CSS + JS)
-  index.html            — portfolio audit page
-  css/lailara.css       — Lailara Design System v2 styles
-  js/app.js             — charts, sliders, filters, detail card
-data/
-  cinderhaven_scored.json  — static scored snapshot (all 50 SKUs)
-docs/
-  scoring_methodology.md   — full methodology, thresholds, caveats
-sql/
-  diagnostic_queries.sql   — 6 analytical SQL queries for client work
-scripts/
-  calibrate.py          — writes percentile thresholds to constants.py
+run_scoring.py            — CLI: query Postgres → score → export JSON
+scripts/calibrate.py      — writes percentile thresholds to src/scoring/constants.py
 src/scoring/
-  constants.py          — auto-generated percentile thresholds
-  dimensions.py         — five pure scoring functions (score 1–5)
-  quadrants.py          — quadrant assignment + weighted composite
-  engine.py             — assembles all dimensions for one SKU
-tests/test_scoring/
-  test_dimensions.py    — 37 tests covering all five scoring functions
-  test_engine.py        — 26 tests covering the scoring engine assembler
-  test_quadrants.py     — 16 tests covering quadrant assignment + composite
-tests/
-  test_canonical_regression.py — 13 tests guarding the scored JSON artifact
-run_scoring.py          — CLI: query Postgres → score → export JSON
+  dimensions.py           — five pure scoring functions (score 1–5)
+  quadrants.py            — bucket assignment (red-flag counts) + weighted composite
+  engine.py               — assembles all dimensions for one SKU
+  constants.py            — auto-generated percentile thresholds
+app/                      — static demo (index.html, js/app.js, css/lailara.css)
+data/cinderhaven_scored.json — scored snapshot of all 50 SKUs
+sql/diagnostic_queries.sql   — 6 analytical SQL queries for client work
+docs/scoring_methodology.md  — full methodology, thresholds, caveats
+tests/                    — dimension, engine, quadrant, and regression tests
 ```
 
----
+See [docs/scoring_methodology.md](docs/scoring_methodology.md) for full methodology detail, including the cannibalization proxy method and known limitations.
 
-## Methodology
+## Data contract
 
-Thresholds are calibrated from the actual p10/p25/p50/p75/p90 distribution of each dimension across the portfolio. Quadrant assignment uses red-flag counts, not the weighted composite. The composite score ranks SKUs within quadrants; weights (adjustable in the demo) do not affect bucket assignment.
-
-See [docs/scoring_methodology.md](docs/scoring_methodology.md) for full detail, including the cannibalization proxy method and known limitations.
-
----
-
-## Data Contract
-
-This framework consumes the full Cinderhaven canonical dataset:
+The case study consumes the full Cinderhaven canonical dataset:
 
 - **50 SKUs** across 5 product lines (Artisan Sauces, Pantry Staples, Specialty Condiments, Dried Goods, Snack Bites)
 - **6 contracted retailers:** Walmart, Costco, Whole Foods, Sprouts, Kroger, Regional Group
 - **3 distributors:** UNFI, KeHE, DPI Northwest
 - **1 DTC channel:** Shopify
 
-Scoring uses the full SKU set across all 6 retailers over a 3-year window.
-
----
-
 ## Consulting offer
 
-This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement. The engagement delivers:
+This framework is the basis of Lailara LLC's SKU Portfolio Audit engagement, which delivers:
 
 - Full scored output for your portfolio
 - Kill list with quantified annual savings (shelf cost + loaded contribution impact)
@@ -126,6 +100,10 @@ This framework is the basis of Lailara LLC's **SKU Portfolio Audit** engagement.
 - Methodology doc and SQL queries for your internal team
 
 Contact: msshawnp@gmail.com
+
+## License
+
+MIT — see [LICENSE](LICENSE).
 
 ---
 Built by [Lailara LLC](https://lailarallc.com) — data hygiene and analytics consulting for specialty food brands scaling into national retail.
