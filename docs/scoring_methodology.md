@@ -23,11 +23,11 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 
 | Score | Threshold |
 |-------|-----------|
-| 5 | ≥ 9.95 USPW (p75) |
-| 4 | ≥ 9.40 USPW (p50) |
-| 3 | ≥ 8.37 USPW (p25) |
-| 2 | ≥ 7.16 USPW (p10) |
-| 1 | < 7.16 USPW |
+| 5 | ≥ 13.51 USPW (p75) |
+| 4 | ≥ 8.33 USPW (p50) |
+| 3 | ≥ 4.36 USPW (p25) |
+| 2 | ≥ 2.02 USPW (p10) |
+| 1 | < 2.02 USPW |
 
 ### 2. Contribution Margin
 **What it measures:** Loaded contribution margin as a percentage of gross revenue, after deducting COGS, trade spend, chargebacks, and allocated retailer deductions.  
@@ -36,11 +36,11 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 
 | Score | Threshold |
 |-------|-----------|
-| 5 | ≥ −4.38% (p75 — least negative) |
-| 4 | ≥ −4.77% (p50) |
-| 3 | ≥ −6.98% (p25) |
-| 2 | ≥ −7.81% (p10) |
-| 1 | < −7.81% |
+| 5 | ≥ −4.37% (p75 — least negative) |
+| 4 | ≥ −4.76% (p50) |
+| 3 | ≥ −6.97% (p25) |
+| 2 | ≥ −7.77% (p10) |
+| 1 | < −7.77% |
 
 **COGS formula (B2B):** `units_ordered × case_pack_qty × cogs_per_unit`  
 (cases shipped × units per case × cost per unit)
@@ -52,11 +52,11 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 
 | Score | Threshold |
 |-------|-----------|
-| 5 | ≤ $82,449/year (p25 — lowest cost) |
-| 4 | ≤ $85,830/year (p50) |
-| 3 | ≤ $88,168/year (p75) |
-| 2 | ≤ $91,381/year (p90) |
-| 1 | > $91,381/year |
+| 5 | ≤ $40,136/year (p25 — lowest cost) |
+| 4 | ≤ $74,765/year (p50) |
+| 3 | ≤ $119,628/year (p75) |
+| 2 | ≤ $137,925/year (p90) |
+| 1 | > $137,925/year |
 
 ### 4. Production Complexity
 **What it measures:** Ratio of landed cost per unit to MSRP (`landed_cost/msrp`). A lower ratio signals a simpler product relative to its price point — lower ingredient and manufacturing complexity.  
@@ -76,15 +76,15 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 **Direction:** Lower is better (inverted scoring).  
 **Data source:** `public_intermediate.int_cannibalization_pairs`
 
-**Methodology note:** This is a *proxy* (cross-sectional velocity comparison), not a rigorous difference-in-differences estimate. All 50 Cinderhaven SKUs were authorized within the same six-month window (January–June 2024), leaving insufficient pre-variant temporal depth for DiD. The proxy compares velocity in stores where a SKU is alone in its product line versus stores where sibling SKUs are also present. SKUs with fewer than 3 solo stores are treated as having no measurable signal (score 5).
+**Methodology note:** This is a *proxy* (cross-sectional velocity comparison), not a rigorous difference-in-differences estimate. All 50 Cinderhaven SKUs were authorized within the same six-month window (January–June 2024), leaving insufficient pre-variant temporal depth for DiD. The proxy compares velocity in stores where a SKU is alone in its product line versus stores where sibling SKUs are also present. SKUs with fewer than 3 solo stores are treated as having no measurable signal (score 5). Because more than half the portfolio shows no cannibalization signal, the p50 threshold is 0.000 and no SKU is assigned a score of 4 — in practice scores fall at 5, 3, 2, or 1.
 
 | Score | Threshold |
 |-------|-----------|
 | 5 | = 0.000 (no signal) |
-| 4 | ≤ 0.046 (p50) |
-| 3 | ≤ 0.120 (p75) |
-| 2 | ≤ 0.250 (p90) |
-| 1 | > 0.250 |
+| 4 | ≤ 0.000 (p50) |
+| 3 | ≤ 0.0745 (p75) |
+| 2 | ≤ 0.2054 (p90) |
+| 1 | > 0.2054 |
 
 ---
 
