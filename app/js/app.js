@@ -43,7 +43,6 @@ const Q_LABELS = {
   kill:        'Kill',
 };
 const Q_ORDER = ['kill', 'fix_or_kill', 'maintain', 'double_down'];
-const Q_THRESHOLDS = { double_down: 4.3, maintain: 3.9, fix_or_kill: 3.3 };
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
@@ -72,11 +71,14 @@ function computeScore(sku) {
 }
 
 function getQuadrant(sku) {
-  const score = computeScore(sku);
-  if (score >= Q_THRESHOLDS.double_down) return 'double_down';
-  if (score >= Q_THRESHOLDS.maintain) return 'maintain';
-  if (score >= Q_THRESHOLDS.fix_or_kill) return 'fix_or_kill';
-  return 'kill';
+  // Action bucket is determined by RED-FLAG COUNT (dimensions scoring <= 2),
+  // computed once by the scoring engine and stored per-SKU in the JSON — see
+  // src/scoring/quadrants.py assign_quadrant. It is weight-independent by
+  // design: moving the dimension-weight sliders changes the composite score
+  // and the ranking, but never the keep/cut bucket. That is what makes the
+  // "can't be gamed" promise true — a fatal weakness on a single dimension
+  // cannot be averaged away by re-weighting.
+  return sku.quadrant;
 }
 
 function getFilteredSkus() {
