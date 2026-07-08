@@ -23,8 +23,18 @@ jobs:
         with:
           node-version: "22"
 
+      # app/ is the publish root. app/data and app/docs are gitignored
+      # (not source files) and must be staged from their canonical locations
+      # at deploy time — this is the "copy at deploy time" step referenced in
+      # commit 05517fd that was never actually implemented.
+      - name: Stage data and docs into publish dir
+        run: |
+          mkdir -p app/data app/docs
+          cp data/cinderhaven_scored.json app/data/
+          cp docs/scoring_methodology.md app/docs/
+
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy . --project-name sku-rationalization-framework
+        run: npx wrangler pages deploy app --project-name sku-rationalization-framework
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
