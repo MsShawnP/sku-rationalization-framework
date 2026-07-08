@@ -34,7 +34,7 @@ const Q_COLORS = {
   double_down: '#158f75',
   maintain:    '#1f2e7a',
   fix_or_kill: '#ee8a2a',
-  kill:        '#cc100a',
+  kill:        '#b82d4a', // Tokyo berry — red is never a FILL; #cc100a stays ink-only
 };
 const Q_LABELS = {
   double_down: 'Double Down',
@@ -294,6 +294,11 @@ function renderBarChart() {
     y, x,
     marker: { color: colors },
     customdata: custom,
+    text: x.map(v => v.toFixed(2)),
+    texttemplate: '%{text}',
+    textposition: 'outside',
+    textfont: { family: "'Source Sans 3', sans-serif", size: 9, color: '#595959' },
+    cliponaxis: false,
     hovertemplate: '<b>%{y}</b><br>%{customdata[1]}<br>Score: %{customdata[2]} — %{customdata[0]}<extra></extra>',
     showlegend: false,
   };

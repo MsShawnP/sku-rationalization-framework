@@ -52,6 +52,7 @@
   --sg-95:         #fdeee0;
   --sg-20:         #7a3d10;
   --q-kill:        #cc100a;
+  --q-kill-fill:   #b82d4a; /* Tokyo berry — visible red safe for FILLS (bars, active buttons); #cc100a stays ink-only */
   --chicago-95:    #e8eaf4; /* Chicago-95 — table row hover, info surface, selected state */
   --red-95:        #fce8e7; /* Red-95 — error/kill badge surface, alert banner background */
   --radius:        2px;
@@ -324,7 +325,7 @@ body {
 .bucket-btn--double-down.is-active { background: var(--q-double-down); }
 .bucket-btn--maintain.is-active    { background: var(--q-maintain); }
 .bucket-btn--fix-or-kill.is-active { background: var(--q-fix-or-kill); }
-.bucket-btn--kill.is-active        { background: var(--q-kill); }
+.bucket-btn--kill.is-active        { background: var(--q-kill-fill); }
 
 /* ─── Charts ─────────────────────────────────────────── */
 .dim-charts-stack {
@@ -534,7 +535,7 @@ body {
   background: var(--teal-35);
   transition: width 200ms ease;
 }
-.dim-row__bar-fill--low { background: var(--q-kill); }
+.dim-row__bar-fill--low { background: var(--q-kill-fill); }
 .dim-row__bar-fill--mid { background: var(--hk-dark); }
 .dim-row__bar-fill--high { background: var(--teal-35); }
 .dim-row__score {
