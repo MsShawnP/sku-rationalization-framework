@@ -171,11 +171,11 @@ body {
   border-left: 4px solid var(--grid-line);
   padding: 16px 18px 14px;
   cursor: pointer;
-  transition: box-shadow 120ms ease, opacity 120ms ease;
+  transition: opacity 120ms ease;
   border-radius: var(--radius);
 }
-.quadrant-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-.quadrant-card.is-active { box-shadow: 0 2px 12px rgba(0,0,0,0.12); }
+.quadrant-card:hover { outline: 1px solid var(--disabled); outline-offset: -1px; }
+.quadrant-card.is-active { outline: 1px solid var(--ink); outline-offset: -1px; }
 .quadrant-card.is-dimmed { opacity: 0.4; }
 .quadrant-card--double-down { border-left-color: var(--q-double-down); }
 .quadrant-card--maintain    { border-left-color: var(--q-maintain); }
@@ -449,7 +449,7 @@ body {
   color: var(--card-text);
   border-radius: 2px;
   padding: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.32);
+  border: 1px solid var(--grid-line);
   z-index: 100;
   font-size: 14px;
 }
