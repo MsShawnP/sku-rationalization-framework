@@ -93,21 +93,23 @@ Optional 6th dimension: **Strategic value** — brand builder, line filler, entr
 
 **Part 2 — The proof: Cinderhaven's 50-SKU portfolio analysis**
 
-Cinderhaven has 50 SKUs across five product lines (Artisan Sauces, Specialty Condiments, Pantry Staples, Craft Preserves, Small-Batch Oils). The framework scores all 50:
+Cinderhaven has 50 SKUs across five product lines (Artisan Sauces, Pantry Staples, Specialty Condiments, Dried Goods, Snack Bites). The framework scores all 50:
 
-| Recommendation | SKU Count | % of Portfolio | % of Revenue | Annual Loaded Cost |
-|---------------|:---------:|:--------------:|:------------:|:------------------:|
-| Double down | 2 | 4% | 38% | $420K |
-| Maintain | 7 | 14% | 45% | $1.1M |
-| Fix or kill | 21 | 42% | 12% | $380K |
-| Kill | 20 | 40% | 5% | $290K |
+| Recommendation | SKU Count | % of Portfolio |
+|---------------|:---------:|:--------------:|
+| Double down | 1 | 2% |
+| Maintain | 16 | 32% |
+| Fix or kill | 14 | 28% |
+| Kill | 19 | 38% |
 
-20 of 50 SKUs scored as Kill — a 40% rate that reflects how far the assortment outran the infrastructure. Combined annual drag: $556K/yr.
+(Counts from the shipped scoring run, `data/cinderhaven_scored.json`.)
 
-The "fix or kill" 15 are even more interesting. Each one has a specific issue:
+19 of 50 SKUs scored as Kill — a 38% rate that reflects how far the assortment outran the infrastructure. Together the 33 flagged SKUs (kill + fix-or-kill) carry ~$3.0M a year in shelf-space cost the portfolio doesn't earn back.
+
+The "fix or kill" 14 are even more interesting. Each one has a specific issue:
 - 4 SKUs with velocity below retailer threshold at one retailer but above at another (fix: delist at the underperforming retailer, maintain at the strong one)
 - 3 SKUs with negative contribution margin driven entirely by chargeback rates (fix: resolve the product data error causing the chargebacks)
-- 5 SKUs cannibalizing higher-margin siblings (fix: differentiate positioning or consolidate into the stronger SKU)
+- 4 SKUs cannibalizing higher-margin siblings (fix: differentiate positioning or consolidate into the stronger SKU)
 - 3 SKUs with production complexity disproportionate to their contribution (fix: consolidate production runs or reformulate)
 
 **Part 3 — The evidence: the technical artifacts**
@@ -168,7 +170,7 @@ For a $25M brand with 60–90 SKUs:
 |------------|--------|---------|
 | Interactive rationalization tool | Streamlit, hosted | Prospect plays with it, sees their own portfolio scored |
 | Excel financial model | .xlsx download | CFO scenarios — "what if we kill these 15?" |
-| Cinderhaven case study | HTML + PDF | Proof — 90-SKU portfolio analyzed, $110K savings identified |
+| Cinderhaven case study | HTML + PDF | Proof — 50-SKU portfolio analyzed, 33 flagged, ~$3.0M/yr shelf-space cost surfaced |
 | SQL diagnostic queries | .sql files in repo | Platform query examples for each scoring dimension |
 | Scoring methodology doc | Markdown in repo | Transparency on how each dimension is scored and weighted |
 
@@ -278,7 +280,7 @@ New dbt models specific to this piece:
   - `int_loaded_contribution_by_sku` — full per-SKU margin calculation
   - `int_shelf_space_cost_by_sku` — annual cost to maintain per retailer
   - `int_cannibalization_pairs` — cross-elasticity between SKU pairs
-- **90 SKUs analyzed.** The case study covers the full Cinderhaven portfolio. Findings by product line (Artisan Sauces, Specialty Condiments, Pantry Staples) add realism — the kill list doesn't just cluster in one line.
+- **50 SKUs analyzed.** The case study covers the full Cinderhaven portfolio. Findings by product line (Artisan Sauces, Pantry Staples, Specialty Condiments, Dried Goods, Snack Bites) add realism — the kill list doesn't just cluster in one line.
 - **Consistency:** SKU velocity data aligns with Velocity Decision Tool outputs. Loaded contribution aligns with Where the Money's channel analysis (if you sum SKU contributions by channel, they should match the channel-level numbers). Cross-portfolio consistency is the Cinderhaven Data Platform's job.
 
 ---
@@ -330,7 +332,7 @@ Secondary markers:
 | Scoring engine (5-dimension matrix, quadrant assignment) | Code | 1–2 days |
 | Streamlit interactive tool (upload, score, visualize, download) | Code | 3–4 days |
 | Excel financial model (scenarios, kill-list savings, sensitivity) | Code + design | 2–3 days |
-| Cinderhaven 90-SKU case study (run framework, write findings) | Code + writing | 2–3 days |
+| Cinderhaven 50-SKU case study (run framework, write findings) | Code + writing | 2–3 days |
 | Scatter plot + waterfall visuals | Code | 1 day |
 | Methodology documentation | Writing | 1 day |
 | Polish | Both | 2 days |
