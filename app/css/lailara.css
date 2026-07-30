@@ -644,3 +644,14 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* Hero finding line (30-second test) */
+.site-header__finding {
+  font-family: var(--font-sans, 'Source Sans 3', sans-serif);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--london-20, #333333);
+  max-width: 660px;
+  margin: 6px 0 4px;
+}

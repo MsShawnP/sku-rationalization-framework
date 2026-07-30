@@ -96,6 +96,19 @@ function skuByCode(code) {
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
 
+
+function renderHeroFinding() {
+  const el = document.getElementById('hero-finding');
+  if (!el || !allSkus.length) return;
+  const flagged = allSkus.filter(s => s.quadrant === 'kill' || s.quadrant === 'fix_or_kill');
+  const shelfCost = flagged.reduce((t, s) => t + ((s.raw && s.raw.annual_shelf_space_cost) || 0), 0);
+  if (!flagged.length || !shelfCost) return;
+  el.textContent =
+    `${flagged.length} of ${allSkus.length} SKUs score kill or fix-or-kill — together ` +
+    `carrying $${(shelfCost / 1e6).toFixed(1)}M a year in shelf-space cost the portfolio ` +
+    `doesn't earn back.`;
+}
+
 async function init() {
   try {
     const res = await fetch('data/cinderhaven_scored.json');
@@ -103,6 +116,7 @@ async function init() {
     const json = await res.json();
     allSkus = json.skus;
 
+    renderHeroFinding();
     populateLineFilter();
     initSliders();
     renderSummaryCards();
