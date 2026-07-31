@@ -76,7 +76,7 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 **Direction:** Lower is better (inverted scoring).  
 **Data source:** `public_intermediate.int_cannibalization_pairs`
 
-**Methodology note:** This is a *proxy* (cross-sectional velocity comparison), not a rigorous difference-in-differences estimate. All 50 Cinderhaven SKUs were authorized within the same six-month window (January–June 2024), leaving insufficient pre-variant temporal depth for DiD. The proxy compares velocity in stores where a SKU is alone in its product line versus stores where sibling SKUs are also present. SKUs with fewer than 3 solo stores are treated as having no measurable signal (score 5). Because more than half the portfolio shows no cannibalization signal, the p50 threshold is 0.000 and no SKU is assigned a score of 4 — in practice scores fall at 5, 3, 2, or 1.
+**Methodology note:** This is a *proxy* (cross-sectional velocity comparison), not a rigorous difference-in-differences estimate. Store-level authorizations are overwhelmingly concentrated in a single wave at the start of the data window — 9,943 of 9,992 authorization events fall in calendar 2023, zero in 2024, and a 49-event tranche in 2025 (span 2023-01-01 to 2025-11-07) — leaving no pre-authorization scan history to serve as a DiD baseline. The proxy compares velocity in stores where a SKU is alone in its product line versus stores where sibling SKUs are also present. SKUs with fewer than 3 solo stores are treated as having no measurable signal (score 5). Because more than half the portfolio shows no cannibalization signal, the p50 threshold is 0.000 and no SKU is assigned a score of 4 — in practice scores fall at 5, 3, 2, or 1.
 
 | Score | Threshold |
 |-------|-----------|
@@ -85,6 +85,8 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 | 3 | ≤ 0.0745 (p75) |
 | 2 | ≤ 0.2054 (p90) |
 | 1 | > 0.2054 |
+
+**Threshold provenance:** the p75/p90 constants above (0.0745 / 0.2054) were calibrated on the pre-zeroing distribution from `int_cannibalization_pairs`, before the fewer-than-3-solo-stores rule zeroes unmeasurable SKUs. Percentiles of the shipped per-SKU values are 0.0191 / 0.1469. The published scores are internally consistent with the published constants; the constants are intentionally left as calibrated.
 
 ---
 
