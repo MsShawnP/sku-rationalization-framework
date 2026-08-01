@@ -19,7 +19,13 @@ from pathlib import Path
 
 import pytest
 
-DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "cinderhaven_scored.json"
+ROOT = Path(__file__).resolve().parent.parent
+DATA_PATH = ROOT / "data" / "cinderhaven_scored.json"
+
+# Canonical counts from the vendored canon, not hardcoded.
+CANON = json.loads((ROOT / "reference" / "canonical_values.json").read_text(encoding="utf-8"))
+CANON_SKUS = CANON["universe"]["skus_total"]["all_time"]
+CANON_LINES = CANON["universe"]["product_lines"]["all_time"]
 
 
 @pytest.fixture(scope="module")
@@ -37,8 +43,8 @@ class TestCinderhavenCanonicalRegression:
 
     def test_sku_count_canonical(self, scored):
         """Canonical 50 SKUs."""
-        assert len(scored["skus"]) == 50, (
-            f"Expected 50 SKUs, got {len(scored['skus'])}"
+        assert len(scored["skus"]) == CANON_SKUS, (
+            f"Expected {CANON_SKUS} SKUs (canon), got {len(scored['skus'])}"
         )
 
     def test_meta_sku_count_matches(self, scored):
@@ -54,7 +60,7 @@ class TestCinderhavenCanonicalRegression:
 
     def test_product_line_count(self, scored):
         lines = {s["product_line"] for s in scored["skus"]}
-        assert len(lines) == 5, f"Expected 5 product lines, got {len(lines)}: {lines}"
+        assert len(lines) == CANON_LINES, f"Expected {CANON_LINES} product lines (canon), got {len(lines)}: {lines}"
 
     def test_product_line_names(self, scored):
         lines = {s["product_line"] for s in scored["skus"]}
