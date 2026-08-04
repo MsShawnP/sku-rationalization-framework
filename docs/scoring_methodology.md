@@ -82,11 +82,27 @@ The framework answers: *which SKUs should be killed, fixed, maintained, or doubl
 |-------|-----------|
 | 5 | = 0.000 (no signal) |
 | 4 | ≤ 0.000 (p50) |
-| 3 | ≤ 0.0745 (p75) |
-| 2 | ≤ 0.2054 (p90) |
+| 3 | ≤ 0.0745 (high) |
+| 2 | ≤ 0.2054 (very high) |
 | 1 | > 0.2054 |
 
-**Threshold provenance:** the p75/p90 constants above (0.0745 / 0.2054) were calibrated on the pre-zeroing distribution from `int_cannibalization_pairs`, before the fewer-than-3-solo-stores rule zeroes unmeasurable SKUs. Percentiles of the shipped per-SKU values are 0.0191 / 0.1469. The published scores are internally consistent with the published constants; the constants are intentionally left as calibrated.
+**Why these thresholds are NOT shipped-distribution percentiles.** Unlike the
+other four dimensions — whose 1–5 cutoffs *are* the portfolio's per-SKU
+p10/p25/p50/p75/p90 — the cannibalization high/very-high cutoffs (0.0745 / 0.2054)
+are deliberately calibrated on the pre-zeroing **pairs** distribution from
+`int_cannibalization_pairs`, not on the shipped per-SKU values. The reason is
+structural: 36 of the 50 SKUs are zeroed by the fewer-than-3-solo-stores rule
+(no measurable signal → score 5). The shipped per-SKU distribution is therefore
+72% zeros, and its percentiles measure that zero mass rather than cannibalization
+intensity — its "p75" is 0.0191, i.e. barely nonzero, which would flag
+essentially-uncannibalized SKUs as "high". The pairs distribution answers the
+question that actually matters — *among SKUs where cannibalization is measurable,
+what counts as high?* — so the 75th/90th percentiles of the pairs (0.0745 / 0.2054)
+are the correct "high" and "very high" cutoffs. They are labelled `high` /
+`very high` (constants `CANNIBAL_HIGH` / `CANNIBAL_VERY_HIGH`), not `p75` / `p90`,
+so nothing claims they are the shipped data's percentiles. (Calibrating onto the
+shipped per-SKU distribution would be a different, deliberate methodology choice —
+e.g. percentiles of the nonzero subset only — argued on its own, not a relabel.)
 
 ---
 

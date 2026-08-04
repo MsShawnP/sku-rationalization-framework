@@ -39,9 +39,17 @@ COMPLEX_P75 = 0.3012
 COMPLEX_P90 = 0.3167
 
 # --- Cannibalization risk (inverted velocity delta) — lower is better ---
-# 0.0 = no signal, positive = velocity drops in shared stores
+# 0.0 = no signal, positive = velocity drops in shared stores.
+#
+# HIGH / VERY_HIGH are fixed cutoffs, NOT percentiles of the shipped per-SKU
+# values. 36 of 50 SKUs are zeroed by the <3-solo-stores rule, so per-SKU
+# percentiles measure the zero mass, not cannibalization intensity (the shipped
+# p75 is 0.0191 — barely nonzero). These cutoffs are calibrated on the pre-zeroing
+# PAIRS distribution (int_cannibalization_pairs), where the metric is actually
+# defined — the 75th/90th percentiles among SKUs whose cannibalization is
+# measurable. See docs/scoring_methodology.md. (P10/P25/P50 are 0.0 either way.)
 CANNIBAL_P10 = 0.0000
 CANNIBAL_P25 = 0.0000
 CANNIBAL_P50 = 0.0000
-CANNIBAL_P75 = 0.0745
-CANNIBAL_P90 = 0.2054
+CANNIBAL_HIGH = 0.0745       # pairs-distribution p75 (measurable-SKU high threshold)
+CANNIBAL_VERY_HIGH = 0.2054  # pairs-distribution p90 (measurable-SKU very-high threshold)

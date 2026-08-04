@@ -13,9 +13,9 @@ No database access, no side effects. Tests live in tests/test_scoring/.
 from __future__ import annotations
 
 from src.scoring.constants import (
+    CANNIBAL_HIGH,
     CANNIBAL_P50,
-    CANNIBAL_P75,
-    CANNIBAL_P90,
+    CANNIBAL_VERY_HIGH,
     COMPLEX_P25,
     COMPLEX_P50,
     COMPLEX_P75,
@@ -118,8 +118,8 @@ def score_cannibalization_risk(cannibalization_risk: float) -> int:
         return 5
     if cannibalization_risk <= CANNIBAL_P50:
         return 4
-    if cannibalization_risk <= CANNIBAL_P75:
+    if cannibalization_risk <= CANNIBAL_HIGH:
         return 3
-    if cannibalization_risk <= CANNIBAL_P90:
+    if cannibalization_risk <= CANNIBAL_VERY_HIGH:
         return 2
     return 1

@@ -9,7 +9,7 @@ A multi-dimensional SKU scoring and visualization framework for specialty food b
 Given a brand's Postgres data, the framework:
 
 1. Scores every SKU (1–5) across five dimensions: velocity, contribution margin, shelf-space cost, production complexity, and cannibalization risk
-2. Calibrates scoring thresholds from the portfolio's own p10/p25/p50/p75/p90 distributions — no arbitrary cutoffs
+2. Calibrates scoring thresholds from the portfolio's own p10/p25/p50/p75/p90 distributions — no arbitrary cutoffs (cannibalization is the one exception: its high/very-high cutoffs come from the pre-zeroing pairs distribution, where the metric is defined — see [docs/scoring_methodology.md](docs/scoring_methodology.md))
 3. Assigns each SKU to one of four action buckets — double down, maintain, fix or kill, or kill — based on red-flag counts, not a weighted average that can hide a fatal flaw
 4. Exports a static JSON snapshot and serves an interactive demo with adjustable dimension weights, ranked charts, and click-through SKU detail
 
