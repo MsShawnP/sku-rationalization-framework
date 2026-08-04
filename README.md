@@ -101,6 +101,25 @@ This framework is the basis of Lailara LLC's SKU Portfolio Audit engagement, whi
 
 Contact: msshawnp@gmail.com
 
+## Client engagement use
+
+The demo renders the committed Cinderhaven scored dataset. To score a **client's
+own SKU portfolio** in place — validated, never committed, never deployed — use
+client mode (see [INPUT-SPEC.md](INPUT-SPEC.md)):
+
+```bash
+pip install -e ../engagement-template/lib      # the shared lailara_engagement scaffold
+python client_mode.py --config engagement.yml --input client-data/skus.csv \
+    --out client-output [--final]
+```
+
+It scores each SKU with the **same engine** the demo uses (`score_sku`) across the
+five weighted dimensions and assigns a quadrant; SKUs missing too many dimensions
+are classed "Insufficient data", never guessed. Output to `client-output/`
+(gitignored): a branded, provenance-footed, DRAFT-watermarked
+`sku-rationalization-summary.html` + `summary.json`, or a Data Readiness Report if
+a required column is missing. The demo dataset is never edited (golden-locked).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
