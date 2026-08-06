@@ -73,6 +73,26 @@ def test_clean_run_scores_via_engine(tmp_path):
     assert "Meridian Farms" in html and "SHA-256" in html and "DRAFT" in html
 
 
+def test_window_label_tracks_config_not_hardcoded(tmp_path):
+    """The rendered window label must be basis.window_label verbatim, not a
+    hardcoded default. The suite asserted quadrant/scoring output but never the
+    window text — a hardcoded window matching the demo would pass, the gap that
+    let trade-spend quote 26 weeks as 'trailing 52 weeks'.
+
+    Both halves: feed a distinctive window_label and assert it renders, AND
+    assert the demo default is absent (a hardcode can't produce the distinctive
+    value)."""
+    cfg = tmp_path / "engagement.yml"
+    cfg.write_text(_CONFIG.replace('window_label: "2023-2026"', 'window_label: "FY-pilot-9x"'),
+                   encoding="utf-8")
+    src = _write(tmp_path, "s.csv", _CLEAN)
+    result = client_mode.run(str(cfg), src, str(tmp_path / "out"))
+    assert result["status"] == "ok"
+    html = open(result["report"], encoding="utf-8").read()
+    assert "FY-pilot-9x" in html
+    assert "2023-2026" not in html                    # demo default must not survive
+
+
 def test_insufficient_data_classified_not_guessed(tmp_path):
     # A SKU with all scoring dimensions blank is classified insufficient_data,
     # not scored with invented numbers.
