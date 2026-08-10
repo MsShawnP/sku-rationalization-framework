@@ -13,7 +13,7 @@ from src.scoring.constants import (
     MARGIN_P10, MARGIN_P25, MARGIN_P50, MARGIN_P75, MARGIN_P90,
     SHELF_P10, SHELF_P25, SHELF_P50, SHELF_P75, SHELF_P90,
     COMPLEX_P10, COMPLEX_P25, COMPLEX_P50, COMPLEX_P75, COMPLEX_P90,
-    CANNIBAL_P50, CANNIBAL_P75, CANNIBAL_P90,
+    CANNIBAL_P50, CANNIBAL_HIGH, CANNIBAL_VERY_HIGH,
 )
 
 
@@ -137,17 +137,17 @@ class TestScoreCannibalizationRisk:
         assert score_cannibalization_risk(CANNIBAL_P50) == 5
 
     def test_small_positive_scores_3_when_p50_is_zero(self):
-        # With CANNIBAL_P50 = 0.0, any nonzero value below P75 scores 3
+        # With CANNIBAL_P50 = 0.0, any nonzero value below the HIGH cutoff scores 3
         assert score_cannibalization_risk(0.0001) == 3
 
-    def test_at_p75_scores_3(self):
-        assert score_cannibalization_risk(CANNIBAL_P75) == 3
+    def test_at_high_cutoff_scores_3(self):
+        assert score_cannibalization_risk(CANNIBAL_HIGH) == 3
 
-    def test_at_p90_scores_2(self):
-        assert score_cannibalization_risk(CANNIBAL_P90) == 2
+    def test_at_very_high_cutoff_scores_2(self):
+        assert score_cannibalization_risk(CANNIBAL_VERY_HIGH) == 2
 
-    def test_above_p90_scores_1(self):
-        assert score_cannibalization_risk(CANNIBAL_P90 + 0.01) == 1
+    def test_above_very_high_cutoff_scores_1(self):
+        assert score_cannibalization_risk(CANNIBAL_VERY_HIGH + 0.01) == 1
 
     def test_return_type_is_int(self):
         assert isinstance(score_cannibalization_risk(0.0), int)

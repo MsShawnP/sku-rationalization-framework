@@ -249,12 +249,16 @@ def render_constants(p: dict) -> str:
         COMPLEX_P90 = {p['complex_p90']:.4f}
 
         # --- Cannibalization risk (inverted velocity delta) — lower is better ---
-        # 0.0 = no signal, positive = velocity drops in shared stores
+        # 0.0 = no signal, positive = velocity drops in shared stores.
+        # HIGH / VERY_HIGH are fixed cutoffs from the pre-zeroing PAIRS distribution
+        # (int_cannibalization_pairs), where the metric is defined — NOT percentiles
+        # of the shipped per-SKU values (36/50 are zeroed, so those measure the zero
+        # mass). See docs/scoring_methodology.md.
         CANNIBAL_P10 = {p['cannibal_p10']:.4f}
         CANNIBAL_P25 = {p['cannibal_p25']:.4f}
         CANNIBAL_P50 = {p['cannibal_p50']:.4f}
-        CANNIBAL_P75 = {p['cannibal_p75']:.4f}
-        CANNIBAL_P90 = {p['cannibal_p90']:.4f}
+        CANNIBAL_HIGH = {p['cannibal_p75']:.4f}       # pairs-distribution p75
+        CANNIBAL_VERY_HIGH = {p['cannibal_p90']:.4f}  # pairs-distribution p90
     """)
 
 

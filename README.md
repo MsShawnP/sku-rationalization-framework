@@ -9,7 +9,7 @@ A multi-dimensional SKU scoring and visualization framework for specialty food b
 Given a brand's Postgres data, the framework:
 
 1. Scores every SKU (1–5) across five dimensions: velocity, contribution margin, shelf-space cost, production complexity, and cannibalization risk
-2. Calibrates scoring thresholds from the portfolio's own p10/p25/p50/p75/p90 distributions — no arbitrary cutoffs
+2. Calibrates scoring thresholds from the portfolio's own p10/p25/p50/p75/p90 distributions — no arbitrary cutoffs (cannibalization is the one exception: its high/very-high cutoffs come from the pre-zeroing pairs distribution, where the metric is defined — see [docs/scoring_methodology.md](docs/scoring_methodology.md))
 3. Assigns each SKU to one of four action buckets — double down, maintain, fix or kill, or kill — based on red-flag counts, not a weighted average that can hide a fatal flaw
 4. Exports a static JSON snapshot and serves an interactive demo with adjustable dimension weights, ranked charts, and click-through SKU detail
 
@@ -100,6 +100,25 @@ This framework is the basis of Lailara LLC's SKU Portfolio Audit engagement, whi
 - Methodology doc and SQL queries for your internal team
 
 Contact: msshawnp@gmail.com
+
+## Client engagement use
+
+The demo renders the committed Cinderhaven scored dataset. To score a **client's
+own SKU portfolio** in place — validated, never committed, never deployed — use
+client mode (see [INPUT-SPEC.md](INPUT-SPEC.md)):
+
+```bash
+pip install -e ../engagement-template/lib      # the shared lailara_engagement scaffold
+python client_mode.py --config engagement.yml --input client-data/skus.csv \
+    --out client-output [--final]
+```
+
+It scores each SKU with the **same engine** the demo uses (`score_sku`) across the
+five weighted dimensions and assigns a quadrant; SKUs missing too many dimensions
+are classed "Insufficient data", never guessed. Output to `client-output/`
+(gitignored): a branded, provenance-footed, DRAFT-watermarked
+`sku-rationalization-summary.html` + `summary.json`, or a Data Readiness Report if
+a required column is missing. The demo dataset is never edited (golden-locked).
 
 ## License
 
